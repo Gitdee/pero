@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Models\Employee;
+use App\Role;
 use Validator;
+use Eloquent;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
@@ -39,6 +42,42 @@ class AuthController extends Controller
     {
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
     }
+    
+    public function showRegistrationForm()
+    {
+        $roleCount = Role::count();
+		if($roleCount != 0) {
+			$userCount = User::count();
+			if($userCount == 0) {
+				return view('auth.register');
+			} else {
+				return redirect('login');
+			}
+		} else {
+			return view('errors.error', [
+				'title' => 'Migration not completed',
+				'message' => 'Please run command <code>php artisan db:seed</code> to generate required table data.',
+			]);
+		}
+    }
+    
+    public function showLoginForm()
+    {
+		$roleCount = Role::count();
+		if($roleCount != 0) {
+			$userCount = User::count();
+			if($userCount == 0) {
+				return redirect('register');
+			} else {
+				return view('auth.login');
+			}
+		} else {
+			return view('errors.error', [
+				'title' => 'Migration not completed',
+				'message' => 'Please run command <code>php artisan db:seed</code> to generate required table data.',
+			]);
+		}
+    }
 
     /**
      * Get a validator for an incoming registration request.
@@ -63,10 +102,18 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        // TODO: This is Not Standard. Need to find alternative
+        Eloquent::unguard();
+        
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'date_left' => date("Y-m-d"),
         ]);
+        $role = Role::where('name', 'EDITOR')->first();
+        $user->attachRole($role);
+    
+        return $user;
     }
 }

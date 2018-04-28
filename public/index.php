@@ -56,3 +56,4 @@ $response = $kernel->handle(
 $response->send();
 
 $kernel->terminate($request, $response);
+function test($var = null, $exit = 1) { echo "<pre>"; print_r($var); echo "</pre>"; if($exit) { exit; } return true; }
