@@ -37,6 +37,7 @@
 					@la_input($module, 'rss')
 					@la_input($module, 'headline_ids')
 					@la_input($module, 'status')
+					@la_input($module, 'socia_network')
 					--}}
                     <br>
 					<div class="form-group">

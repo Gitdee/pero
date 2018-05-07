@@ -77,10 +77,12 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	/* ================== Links_Headlines ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/links_headlines', 'LA\Links_HeadlinesController');
 	Route::get(config('laraadmin.adminRoute') . '/links_headline_dt_ajax', 'LA\Links_HeadlinesController@dtajax');
+    Route::post(config('laraadmin.adminRoute') . '/links_headline_position', 'LA\Links_HeadlinesController@position');
 
 	/* ================== Links ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/links', 'LA\LinksController');
 	Route::get(config('laraadmin.adminRoute') . '/link_dt_ajax', 'LA\LinksController@dtajax');
+    Route::post(config('laraadmin.adminRoute') . '/link_position', 'LA\LinksController@position');
 
 	/* ================== Banners ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/banners', 'LA\BannersController');

@@ -111,6 +111,7 @@
 						@la_display($module, 'rss')
 						@la_display($module, 'headline_ids')
 						@la_display($module, 'status')
+						@la_display($module, 'socia_network')
 					</div>
 				</div>
 			</div>

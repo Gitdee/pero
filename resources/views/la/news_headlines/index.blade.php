@@ -107,7 +107,7 @@ $(function () {
 		dom: 'Bfrtip',
         rowReorder: {
              update: false,
-             selector: 'tr',
+             //selector: 'tr',
              dataSrc: 8//column position row
          },
         processing: true,

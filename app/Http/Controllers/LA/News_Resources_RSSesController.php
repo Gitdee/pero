@@ -17,13 +17,15 @@ use Collective\Html\FormFacade as Form;
 use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
 
+use Dwij\Laraadmin\LAFormMaker;
+
 use App\Models\News_Resources_RSS;
 
 class News_Resources_RSSesController extends Controller
 {
 	public $show_action = true;
 	public $view_col = 'title';
-	public $listing_cols = ['id', 'title', 'rss', 'headline_ids', 'status'];
+	public $listing_cols = ['id', 'title', 'rss', 'headline_ids', 'status', 'socia_network'];
 	
 	public function __construct() {
 		// Field Access of Listing Columns
@@ -219,7 +221,36 @@ class News_Resources_RSSesController extends Controller
 			for ($j=0; $j < count($this->listing_cols); $j++) { 
 				$col = $this->listing_cols[$j];
 				if($fields_popup[$col] != null && starts_with($fields_popup[$col]->popup_vals, "@")) {
-					$data->data[$i][$j] = ModuleFields::getFieldValue($fields_popup[$col], $data->data[$i][$j]);
+				  
+          if($col == "headline_ids"){
+            $value = $data->data[$i][$j];
+            $valueOut = "";
+  					$values = LAFormMaker::process_values($fields_popup[$col]->popup_vals);
+            
+  					if(count($values)) {
+  						if(starts_with($fields_popup[$col]->popup_vals, "@")) {
+  							$moduleVal = Module::getByTable(str_replace("@", "", $fields_popup[$col]->popup_vals));
+  							$valueSel = json_decode($value);
+  							foreach ($values as $key => $val) {
+  								if(in_array($key, $valueSel)) {
+  									$valueOut .= "".$val.", ";
+  								}
+  							}
+  						} else {
+  							$valueSel = json_decode($value);
+  							foreach ($values as $key => $val) {
+  								if(in_array($key, $valueSel)) {
+  									$valueOut .= "".$val.", ";
+  								}
+  							}
+  						}
+  					}
+            $valueOut = rtrim($valueOut, ", ");
+  					$value = $valueOut;
+             $data->data[$i][$j] = $value;
+          }else{
+					   $data->data[$i][$j] = ModuleFields::getFieldValue($fields_popup[$col], $data->data[$i][$j]);
+          }
 				}
 				if($col == $this->view_col) {
 					$data->data[$i][$j] = '<a href="'.url(config('laraadmin.adminRoute') . '/news_resources_rsses/'.$data->data[$i][0]).'">'.$data->data[$i][$j].'</a>';

@@ -64,6 +64,7 @@
 					@la_input($module, 'title_en')
 					@la_input($module, 'link')
 					@la_input($module, 'headline_id')
+					@la_input($module, 'position')
 					--}}
 				</div>
 			</div>
@@ -87,8 +88,14 @@
 <script src="{{ asset('la-assets/plugins/datatables/datatables.min.js') }}"></script>
 <script>
 $(function () {
-	$("#example1").DataTable({
-		processing: true,
+	var table = $("#example1").DataTable({
+		dom: 'Bfrtip',
+        rowReorder: {
+             update: false,
+             //selector: 'tr',
+             dataSrc: 6//column position row
+         },
+        processing: true,
         serverSide: true,
         ajax: "{{ url(config('laraadmin.adminRoute') . '/link_dt_ajax') }}",
 		language: {
@@ -100,6 +107,20 @@ $(function () {
 		columnDefs: [ { orderable: false, targets: [-1] }],
 		@endif
 	});
+    table.on( 'row-reorder', function ( e, details, changes ) {
+        $.ajax({
+			url: "{{ url(config('laraadmin.adminRoute') . '/link_position') }}",
+			method: 'POST',
+            data: {data: JSON.stringify(details)},
+			headers: {
+		    	'X-CSRF-Token': $('input[name="_token"]').val()
+    		},
+			success: function( data ) {
+			     table.ajax.reload( null, false );
+			}
+		});
+        
+    } ); 
 	$("#link-add-form").validate({
 		
 	});

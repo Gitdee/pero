@@ -112,6 +112,7 @@
 						@la_display($module, 'title_en')
 						@la_display($module, 'link')
 						@la_display($module, 'headline_id')
+						@la_display($module, 'position')
 					</div>
 				</div>
 			</div>

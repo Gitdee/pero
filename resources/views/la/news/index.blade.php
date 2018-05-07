@@ -86,9 +86,11 @@
 @push('scripts')
 <script src="{{ asset('la-assets/plugins/datatables/datatables.min.js') }}"></script>
 <script>
-$(function () {
+$(function(){
 	$("#example1").DataTable({
 		processing: true,
+    order: [[ 3, "asc" ]],
+    pageLength: 50,
         serverSide: true,
         ajax: "{{ url(config('laraadmin.adminRoute') . '/news_dt_ajax') }}",
 		language: {
@@ -97,7 +99,7 @@ $(function () {
 			searchPlaceholder: "Search"
 		},
 		@if($show_actions)
-		columnDefs: [ { orderable: false, targets: [-1] }],
+		columnDefs: [ { orderable: true, targets: [5] }],
 		@endif
 	});
 	$("#news-add-form").validate({

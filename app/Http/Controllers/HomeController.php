@@ -8,13 +8,21 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Session;
+use DB;
+use Illuminate\Support\Facades\App;
+use App\Models\News_Headline;
+use App\Models\Links_Headline;
+use App\Models\News;
+use App\Models\Radio;
+use App\Models\Tv;
 /**
  * Class HomeController
  * @package App\Http\Controllers
  */
 class HomeController extends Controller
 {
+    var $locale = '';
     /**
      * Create a new controller instance.
      *
@@ -22,7 +30,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        
+        $this->locale = App::getLocale();
     }
 
     /**
@@ -32,16 +40,22 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $roleCount = \App\Role::count();
-		if($roleCount != 0) {
-			if($roleCount != 0) {
-				return view('home');
-			}
-		} else {
-			return view('errors.error', [
-				'title' => 'Migration not completed',
-				'message' => 'Please run command <code>php artisan db:seed</code> to generate required table data.',
-			]);
-		}
+        $mainCategoryNews = News::where("main_thing", 1)->orderBy("datetime", "desc")->limit(3)->get()->toArray();
+        $newsHeadlines = News_Headline::getShowsOnHomepage(5);
+        $regionalNews = News_Headline::getRegionals(5);
+        $leftLinks = Links_Headline::getLeftLinks();
+        $rightLinks = Links_Headline::getRightLinks();
+        $radios = Radio::where("status",1)->orderBy("position")->get()->toArray();
+        $tvs = Tv::where("status",1)->orderBy("position")->get()->toArray();
+        //test($tvs);
+        return view('home', [
+          'mainCategoryNews' => $mainCategoryNews,
+          'newsHeadlines' => $newsHeadlines,
+          'regionalNews' => $regionalNews,
+          'leftLinks' => $leftLinks,
+          'rightLinks' => $rightLinks,
+          'radios' => $radios,
+          'tvs' => $tvs,
+        ]);
     }
 }

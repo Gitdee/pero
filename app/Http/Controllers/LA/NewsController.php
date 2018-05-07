@@ -209,7 +209,7 @@ class NewsController extends Controller
 	 */
 	public function dtajax()
 	{
-		$values = DB::table('news')->select($this->listing_cols)->whereNull('deleted_at');
+		$values = DB::table('news')->select($this->listing_cols)->whereNull('deleted_at')->orderBy("datetime", "desc");
 		$out = Datatables::of($values)->make();
 		$data = $out->getData();
 

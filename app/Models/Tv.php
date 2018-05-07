@@ -8,6 +8,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\App;
 
 class Tv extends Model
 {
@@ -22,4 +23,11 @@ class Tv extends Model
 	protected $guarded = [];
 
 	protected $dates = ['deleted_at'];
+  protected $appends = ['title'];
+  
+  public function getTitleAttribute()
+  {
+      $locale = App::getLocale();
+      return $this->attributes['title_' . $locale] ;
+  }
 }

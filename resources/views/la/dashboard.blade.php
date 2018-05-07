@@ -13,52 +13,78 @@
               <!-- small box -->
               <div class="small-box bg-aqua">
                 <div class="inner">
-                  <h3>@if ($clinics_count) {{$clinics_count}} @else 0 @endif</h3>
-                  <p>Clinics</p>
+                  <h3>@if ($newsCount) {{$newsCount}} @else 0 @endif</h3>
+                  <p>News</p>
                 </div>
                 <div class="icon">
-                  <i class="fa fa-medkit"></i>
+                  <i class="fa fa-indent"></i>
                 </div>
-                <a href="{{ url(config('laraadmin.adminRoute') . "/clinics") }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="{{ url(config('laraadmin.adminRoute') . "/news") }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
               </div>
             </div><!-- ./col -->
             <div class="col-lg-6 col-xs-6">
               <!-- small box -->
               <div class="small-box bg-green">
                 <div class="inner">
-                  <h3>@if ($pharms_count) {{$pharms_count}} @else 0 @endif</h3>
-                  <p>pharms</p>
+                  <h3>@if ($newsHeadlinesCount) {{$newsHeadlinesCount}} @else 0 @endif</h3>
+                  <p>News Headlines</p>
                 </div>
                 <div class="icon">
-                  <i class="fa fa fa-ambulance"></i>
+                  <i class="fa fa fa-newspaper-o"></i>
                 </div>
-                <a href="{{ url(config('laraadmin.adminRoute') . "/pharms") }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-              </div>
-            </div><!-- ./col -->
-            <div class="col-lg-6 col-xs-6">
-              <!-- small box -->
-              <div class="small-box bg-yellow">
-                <div class="inner">
-                  <h3>@if ($doctors_count) {{$doctors_count}} @else 0 @endif</h3>
-                  <p>doctors</p>
-                </div>
-                <div class="icon">
-                  <i class="fa fa fa-user-plus"></i>
-                </div>
-                <a href="{{ url(config('laraadmin.adminRoute') . "/doctors") }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="{{ url(config('laraadmin.adminRoute') . "/news_headlines") }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
               </div>
             </div><!-- ./col -->
             <div class="col-lg-6 col-xs-6">
               <!-- small box -->
               <div class="small-box bg-red">
                 <div class="inner">
-                  <h3>@if ($pacients_count) {{$pacients_count}} @else 0 @endif</h3>
-                  <p>pacients</p>
+                  <h3>@if ($newsResourcesRssesCount) {{$newsResourcesRssesCount}} @else 0 @endif</h3>
+                  <p>RSS</p>
                 </div>
                 <div class="icon">
-                  <i class="fa fa fa-user-times"></i>
+                  <i class="fa fa fa-rss"></i>
                 </div>
-                <a href="{{ url(config('laraadmin.adminRoute') . "/pacients") }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="{{ url(config('laraadmin.adminRoute') . "/news_resources_rsses") }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div><!-- ./col -->
+             <div class="col-lg-6 col-xs-6">
+              <!-- small box -->
+              <div class="small-box bg-yellow">
+                <div class="inner">
+                  <h3>@if ($bannersCount) {{$bannersCount}} @else 0 @endif</h3>
+                  <p>Banners</p>
+                </div>
+                <div class="icon">
+                  <i class="fa fa fa-buysellads"></i>
+                </div>
+                <a href="{{ url(config('laraadmin.adminRoute') . "/banners") }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div><!-- ./col -->
+            <div class="col-lg-6 col-xs-6">
+              <!-- small box -->
+              <div class="small-box bg-olive">
+                <div class="inner">
+                  <h3>@if ($linksCount) {{$linksCount}} @else 0 @endif</h3>
+                  <p>Links</p>
+                </div>
+                <div class="icon">
+                  <i class="fa fa fa-link"></i>
+                </div>
+                <a href="{{ url(config('laraadmin.adminRoute') . "/links") }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div><!-- ./col -->
+            <div class="col-lg-6 col-xs-6">
+              <!-- small box -->
+              <div class="small-box bg-purple">
+                <div class="inner">
+                  <h3>@if ($linksHeadlinesCount) {{$linksHeadlinesCount}} @else 0 @endif</h3>
+                  <p>Links Headlines</p>
+                </div>
+                <div class="icon">
+                  <i class="fa fa fa-link"></i>
+                </div>
+                <a href="{{ url(config('laraadmin.adminRoute') . "/links_headlines") }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
               </div>
             </div><!-- ./col -->
           </div><!-- /.row -->

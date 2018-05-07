@@ -23,6 +23,7 @@ class CreateLinksTable extends Migration
             ["title_en", "Title(EN)", "TextField", false, "", 0, 256, true],
             ["link", "Link", "TextField", false, "", 0, 256, true],
             ["headline_id", "Headline", "Dropdown", false, "", 0, 0, false, "@links_headlines"],
+            ["position", "Ordering", "Integer", false, "0", 0, 11, false],
         ]);
 		
 		/*

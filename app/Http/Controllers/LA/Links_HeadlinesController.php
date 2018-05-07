@@ -201,6 +201,33 @@ class Links_HeadlinesController extends Controller
 			return redirect(config('laraadmin.adminRoute')."/");
 		}
 	}
+    
+    /**
+	 * Datatable position update
+	 *
+	 * @return
+	 */
+    public function position(Request $request)
+    {
+        
+        $data = json_decode($request->data, 1);
+        if($data){
+            foreach($data as $key => $item){
+                $oldVal = $item["oldData"];
+                $data[$key]["id"] = 0;
+                if($result = DB::table('links_headlines')->whereNull('deleted_at')->where('position', $oldVal)->first()){
+                    $data[$key]["id"] = $result->id;
+                }
+            }
+            foreach($data as $key => $item){
+                if($item["id"]){
+                    $newVal = $item["newData"];
+                    DB::table('links_headlines')->whereNull('deleted_at')->where('id', $item["id"])->update(['position' => $newVal]);
+                }
+            }
+        }
+        return;
+    }
 	
 	/**
 	 * Datatable Ajax fetch
@@ -209,7 +236,7 @@ class Links_HeadlinesController extends Controller
 	 */
 	public function dtajax()
 	{
-		$values = DB::table('links_headlines')->select($this->listing_cols)->whereNull('deleted_at');
+		$values = DB::table('links_headlines')->select($this->listing_cols)->whereNull('deleted_at')->orderBy("position");
 		$out = Datatables::of($values)->make();
 		$data = $out->getData();
 

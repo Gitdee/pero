@@ -38,6 +38,7 @@
 					@la_input($module, 'title_en')
 					@la_input($module, 'link')
 					@la_input($module, 'headline_id')
+					@la_input($module, 'position')
 					--}}
                     <br>
 					<div class="form-group">

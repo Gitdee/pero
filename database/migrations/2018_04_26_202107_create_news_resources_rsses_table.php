@@ -22,6 +22,7 @@ class CreateNewsResourcesRssesTable extends Migration
             ["rss", "RSS", "TextField", false, "", 0, 256, true],
             ["headline_ids", "News Headlines", "Multiselect", false, "", 0, 0, true, "@news_headlines"],
             ["status", "Status", "Checkbox", false, "0", 0, 0, false],
+            ["socia_network", "Social network", "Checkbox", false, "0", 0, 0, false],
         ]);
 		
 		/*

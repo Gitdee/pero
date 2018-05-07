@@ -9,6 +9,7 @@ namespace App\Http\Controllers\LA;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use DB;
 
 /**
  * Class DashboardController
@@ -33,6 +34,20 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        $newsCount = DB::table("news")->whereNull('deleted_at')->count();
+        $newsHeadlinesCount = DB::table("news_headlines")->whereNull('deleted_at')->count();
+        $newsResourcesRssesCount = DB::table("news_resources_rsses")->whereNull('deleted_at')->count();
+        $linksCount = DB::table("links")->whereNull('deleted_at')->count();
+        $bannersCount = DB::table("banners")->whereNull('deleted_at')->count();
+        $linksHeadlinesCount = DB::table("links_headlines")->whereNull('deleted_at')->count();
+        return view('la.dashboard',[
+          'newsCount' => $newsCount,
+          'newsHeadlinesCount' => $newsHeadlinesCount,
+          'newsResourcesRssesCount' => $newsResourcesRssesCount,
+          'linksCount' => $linksCount,
+          'linksHeadlinesCount' => $linksHeadlinesCount,
+          'bannersCount' => $bannersCount
+        ]);
         return view('la.dashboard');
     }
 }

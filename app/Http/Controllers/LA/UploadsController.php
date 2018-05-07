@@ -35,7 +35,6 @@ class UploadsController extends Controller
 	public function __construct() {
 		// for authentication (optional)
 		$this->middleware('auth', ['except' => 'get_file']);
-		
 		$module = Module::get('Uploads');
 		$listing_cols_temp = array();
 		foreach ($this->listing_cols as $col) {
@@ -75,8 +74,12 @@ class UploadsController extends Controller
      */
     public function get_file($hash, $name)
     {
-        $upload = Upload::where("hash", $hash)->first();
-        
+      //test($name);
+        try{
+          $upload = DB::table("uploads")->where("hash", $hash)->first();
+        }catch (\PDOException $e) {
+          
+        }
         // Validate Upload Hash & Filename
         if(!isset($upload->id) || $upload->name != $name) {
             return response()->json([
@@ -90,42 +93,51 @@ class UploadsController extends Controller
         } else {
             $upload->public = false;
         }
-
+        /* commented for frontend
         // Validate if Image is Public
         if(!$upload->public && !isset(Auth::user()->id)) {
             return response()->json([
                 'status' => "failure",
                 'message' => "Unauthorized Access 2",
             ]);
-        }
-
-        if($upload->public || Entrust::hasRole('SUPER_ADMIN') || Auth::user()->id == $upload->user_id) {
+        }*/
+        /*
+        commented for frontend
+        if($upload->public || Entrust::hasRole('SUPER_ADMIN') || Auth::user()->id == $upload->user_id) {*/
+        if(true){
             
             $path = $upload->path;
-
+            
             if(!File::exists($path))
                 abort(404);
             
             // Check if thumbnail
             $size = Input::get('s');
-            if(isset($size)) {
-                if(!is_numeric($size)) {
+            $sizes = explode("-", $size);
+            $size = isset($sizes[0]) ? $sizes[0] : $size;
+            $size2 = isset($sizes[1]) ? $sizes[1] : $size;
+            if(isset($size) && $size) {
+                if($size == "orig"){
+                  list($original_width, $original_height, $original_type) = getimagesize($path);
+            
+                  $size = $original_width;
+                  $size2 = $original_height;
+                }elseif(!is_numeric($size)) {
                     $size = 150;
+                    $size2 = $size;
                 }
-                $thumbpath = storage_path("thumbnails/".basename($upload->path)."-".$size."x".$size);
-                
+                $thumbpath = storage_path("thumbnails/".basename($upload->path)."-".$size."x".$size2);
                 if(File::exists($thumbpath)) {
                     $path = $thumbpath;
                 } else {
                     // Create Thumbnail
-                    LAHelper::createThumbnail($upload->path, $thumbpath, $size, $size, "transparent");
+                    LAHelper::createThumbnail($upload->path, $thumbpath, $size, $size2, [247, 247, 247]);
                     $path = $thumbpath;
                 }
             }
 
             $file = File::get($path);
             $type = File::mimeType($path);
-
             $download = Input::get('download');
             if(isset($download)) {
                 return response()->download($path, $upload->name);
@@ -148,12 +160,12 @@ class UploadsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function upload_files() {
+    public function upload_files($returnToCode = false, $file = null) {
         
-		if(Module::hasAccess("Uploads", "create")) {
+		if(1) {
 			$input = Input::all();
 			
-			if(Input::hasFile('file')) {
+			if(Input::hasFile('file') || $file) {
 				/*
 				$rules = array(
 					'file' => 'mimes:jpg,jpeg,bmp,png,pdf|max:3000',
@@ -163,15 +175,16 @@ class UploadsController extends Controller
 					return response()->json($validation->errors()->first(), 400);
 				}
 				*/
-				$file = Input::file('file');
-				
+        if(!$file){
+				  $file = Input::file('file');
+				}
 				// print_r($file);
 				
 				$folder = storage_path('uploads');
 				$filename = $file->getClientOriginalName();
 	
 				$date_append = date("Y-m-d-His-");
-				$upload_success = Input::file('file')->move($folder, $date_append.$filename);
+				$upload_success = $file->move($folder, $date_append.$filename);
 				
 				if( $upload_success ) {
 	
@@ -185,7 +198,7 @@ class UploadsController extends Controller
 					}
 	
 					$upload = Upload::create([
-						"name" => $filename,
+						"name" => pathinfo($filename, PATHINFO_FILENAME),
 						"path" => $folder.DIRECTORY_SEPARATOR.$date_append.$filename,
 						"extension" => pathinfo($filename, PATHINFO_EXTENSION),
 						"caption" => "",
@@ -202,24 +215,51 @@ class UploadsController extends Controller
 						}
 					}
 					$upload->save();
-	
-					return response()->json([
-						"status" => "success",
-						"upload" => $upload
-					], 200);
+	        
+          if($returnToCode){
+            return [
+  						"status" => "success",
+  						"upload" => $upload
+  					];
+          }else{
+  					return response()->json([
+  						"status" => "success",
+  						"upload" => $upload
+  					], 200);
+          }
 				} else {
-					return response()->json([
-						"status" => "error"
-					], 400);
+				  if($returnToCode){
+				    return [
+  						"status" => "error"
+  					];
+				  }else{
+  					return response()->json([
+  						"status" => "error"
+  					], 400);
+          }
 				}
 			} else {
-				return response()->json('error: upload file not found.', 400);
+			  if($returnToCode){
+				  return [
+            'status' => "failure",
+            'message' => 'error: upload file not found.'
+          ];
+        }else{
+          return response()->json('error: upload file not found.', 400);
+        }
 			}
 		} else {
-			return response()->json([
-				'status' => "failure",
-				'message' => "Unauthorized Access"
-			]);
+		  if($returnToCode){
+  			return [
+  				'status' => "failure",
+  				'message' => "Unauthorized Access"
+  			];
+      }else{
+        return response()->json([
+  				'status' => "failure",
+  				'message' => "Unauthorized Access"
+  			]);
+      }
 		}
     }
 
