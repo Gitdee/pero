@@ -23,7 +23,7 @@ class News_HeadlinesController extends Controller
 {
 	public $show_action = true;
 	public $view_col = 'title_ua';
-	public $listing_cols = ['id', 'title_ua', 'title_ru', 'title_en', 'slug', 'more_button_ua', 'more_button_ru', 'more_button_en', 'position', 'region_headline', 'status', 'meta_title_ua', 'meta_title_ru', 'meta_title_en', 'meta_keywords_ua', 'meta_keywords_ru', 'meta_keywords_en', 'meta_description_ua', 'meta_description_ru', 'meta_description_en'];
+	public $listing_cols = ['id', 'title_ua', 'slug', 'position', 'region_headline', 'status'];
 	
 	public function __construct() {
 		// Field Access of Listing Columns

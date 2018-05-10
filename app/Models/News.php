@@ -24,9 +24,10 @@ class News extends Model
 	protected $guarded = [];
 
 	protected $dates = ['deleted_at'];
-  
-  protected $appends = ['resource_title'];    
-  
+	
+	//protected static $constraints = ['status' => 1, 'approved' => 1];
+	
+	protected $appends = ['resource_title'];  
   public function resource()
   {
       return $this->belongsTo(News_Resources_RSS::class, 'resource_id', 'id');
@@ -36,6 +37,5 @@ class News extends Model
   {
       $resource = $this->resource()->first();
       return isset($resource->title) ? $resource->title : "";
-  }    
-        
+  } 
 }

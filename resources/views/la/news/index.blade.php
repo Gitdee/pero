@@ -64,6 +64,11 @@
 					@la_input($module, 'resource_id')
 					@la_input($module, 'link')
 					@la_input($module, 'datetime')
+					@la_input($module, 'main_thing')
+					@la_input($module, 'guid')
+					@la_input($module, 'running_line')
+					@la_input($module, 'expire_main_thing')
+					@la_input($module, 'expire-running_line')
 					--}}
 				</div>
 			</div>
@@ -86,11 +91,10 @@
 @push('scripts')
 <script src="{{ asset('la-assets/plugins/datatables/datatables.min.js') }}"></script>
 <script>
-$(function(){
+$(function () {
 	$("#example1").DataTable({
 		processing: true,
-    order: [[ 3, "asc" ]],
-    pageLength: 50,
+		order: [[ 4, "desc" ]],
         serverSide: true,
         ajax: "{{ url(config('laraadmin.adminRoute') . '/news_dt_ajax') }}",
 		language: {
@@ -99,7 +103,7 @@ $(function(){
 			searchPlaceholder: "Search"
 		},
 		@if($show_actions)
-		columnDefs: [ { orderable: true, targets: [5] }],
+		columnDefs: [ { orderable: false, targets: [-1] }],
 		@endif
 	});
 	$("#news-add-form").validate({

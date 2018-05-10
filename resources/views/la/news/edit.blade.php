@@ -38,6 +38,11 @@
 					@la_input($module, 'resource_id')
 					@la_input($module, 'link')
 					@la_input($module, 'datetime')
+					@la_input($module, 'main_thing')
+					@la_input($module, 'guid')
+					@la_input($module, 'running_line')
+					@la_input($module, 'expire_main_thing')
+					@la_input($module, 'expire-running_line')
 					--}}
                     <br>
 					<div class="form-group">

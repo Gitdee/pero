@@ -23,7 +23,7 @@ class NewsController extends Controller
 {
 	public $show_action = true;
 	public $view_col = 'title';
-	public $listing_cols = ['id', 'title', 'headline_id', 'resource_id', 'link', 'datetime'];
+	public $listing_cols = ['id', 'title', 'headline_id', 'resource_id', 'datetime', 'main_thing', 'running_line'];
 	
 	public function __construct() {
 		// Field Access of Listing Columns
@@ -209,7 +209,7 @@ class NewsController extends Controller
 	 */
 	public function dtajax()
 	{
-		$values = DB::table('news')->select($this->listing_cols)->whereNull('deleted_at')->orderBy("datetime", "desc");
+		$values = DB::table('news')->select($this->listing_cols)->whereNull('deleted_at');
 		$out = Datatables::of($values)->make();
 		$data = $out->getData();
 

@@ -8,6 +8,15 @@
 @section("main-content")
 {{--@include('frontend.layouts.partials.newsletter')--}}
 <div class="container">
+	<div class="row">
+		@if($runningLineNews)
+		<marquee direction="left" style="background: #1080cf;color: #fff;height: 40px;line-height: 40px;">
+	    @foreach($runningLineNews as $new)
+	    	{{$new["title"]}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	    @endforeach
+	  </marquee>
+	  @endif
+	</div>
   <div class="row">
     <div class="col-lg-3 left_side">
     	<div class="row">

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\App;
 
+use Lang;
 use App\Models\News;
 
 class News_Headline extends Model
@@ -92,16 +93,29 @@ class News_Headline extends Model
   
   public static function getHeadlineWithNews($slug = "", $limit = 20, $offset = 0, $keyword = "")
   {
-    $record = static::where("status", 1)->where("slug", $slug)->first();
-    if($record){
-        $recordData = $record->toArray();
-        if($keyword){
-        	$recordData["news"] = $record->news()->where("title", "like", "%" . $keyword . "%")->offset($offset)->limit($limit)->orderBy("datetime", "desc")->get()->toArray();
-        }else{
-        	$recordData["news"] = $record->news()->offset($offset)->limit($limit)->orderBy("datetime", "desc")->get()->toArray();
-        }
-        $record = $recordData;
-    }
+  	if($slug == "main"){
+  		$record = [
+				"title" => Lang::get('main.main_category'),
+				"meta_title" => Lang::get('main.main_category'),
+				"slug" => "main",
+				"news" => []
+			];
+			$record["news"] = News::where("main_thing", 1)->where(function($query){
+				$query->where("expire_main_thing", ">", date("Y-m-d H:i:s"));
+				$query->orWhere("expire_main_thing", "<", "2000-01-01 00:00:00");
+			})->where("title", "like", "%" . $keyword . "%")->offset($offset)->limit($limit)->orderBy("datetime", "desc")->get()->toArray();
+  	}else{
+	    $record = static::where("status", 1)->where("slug", $slug)->first();
+	    if($record){
+	        $recordData = $record->toArray();
+	        if($keyword){
+	        	$recordData["news"] = $record->news()->where("title", "like", "%" . $keyword . "%")->offset($offset)->limit($limit)->orderBy("datetime", "desc")->get()->toArray();
+	        }else{
+	        	$recordData["news"] = $record->news()->offset($offset)->limit($limit)->orderBy("datetime", "desc")->get()->toArray();
+	        }
+	        $record = $recordData;
+	    }
+		}
     return $record;
   }
   

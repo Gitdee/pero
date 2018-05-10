@@ -23,6 +23,11 @@ class CreateNewsTable extends Migration
             ["resource_id", "Resource", "Dropdown", false, "0", 0, 0, false, "@news_resources_rsses"],
             ["link", "Link", "TextField", false, "", 0, 256, false],
             ["datetime", "Date", "Datetime", false, "", 0, 0, false],
+            ["main_thing", "Main thing", "Checkbox", false, "0", 0, 0, false],
+            ["guid", "GUID", "TextField", false, "", 0, 256, false],
+            ["running_line", "Running line", "Checkbox", false, "0", 0, 0, false],
+            ["expire_main_thing", "Expire Main thing", "Datetime", false, "", 0, 0, false],
+            ["expire-running_line", "Expire Running line", "Datetime", false, "", 0, 0, false],
         ]);
 		
 		/*

@@ -23,7 +23,7 @@ class LinksController extends Controller
 {
 	public $show_action = true;
 	public $view_col = 'title_ua';
-	public $listing_cols = ['id', 'title_ua', 'title_ru', 'title_en', 'link', 'headline_id', 'position'];
+	public $listing_cols = ['id', 'title_ua', 'link', 'headline_id', 'position'];
 	
 	public function __construct() {
 		// Field Access of Listing Columns

@@ -23,7 +23,7 @@ class Tv_programsController extends Controller
 {
 	public $show_action = true;
 	public $view_col = 'title_ua';
-	public $listing_cols = ['id', 'title_ua', 'title_ru', 'title_en', 'datetime', 'status'];
+	public $listing_cols = ['id', 'title_ua', 'datetime', 'status'];
 	
 	public function __construct() {
 		// Field Access of Listing Columns

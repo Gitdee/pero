@@ -41,7 +41,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $mainCategoryNews = News::where("main_thing", 1)->orderBy("datetime", "desc")->limit(3)->get()->toArray();
+        $mainCategoryNews = News::where("main_thing", 1)->where(function($query){
+					$query->where("expire_main_thing", ">", date("Y-m-d H:i:s"));
+					$query->orWhere("expire_main_thing", "<", "2000-01-01 00:00:00");
+				})->orderBy("datetime", "desc")->limit(3)->get()->toArray();
+				
+				$runningLineNews = News::where("running_line", 1)->where(function($query){
+					$query->where("expire-running_line", ">", date("Y-m-d H:i:s"));
+					$query->orWhere("expire-running_line", "<", "2000-01-01 00:00:00");
+				})->orderBy("datetime", "desc")->limit(3)->get()->toArray();
         $newsHeadlines = News_Headline::getShowsOnHomepage(5);
         $regionalNews = News_Headline::getRegionals(5);
         $leftLinks = Links_Headline::getLeftLinks();
@@ -50,6 +58,7 @@ class HomeController extends Controller
         $tvs = Tv::where("status",1)->orderBy("position")->get()->toArray();
     		$tvProgram = Tv_program::getTVProgram();
         return view('home', [
+        	"runningLineNews" => $runningLineNews,
           'mainCategoryNews' => $mainCategoryNews,
           'newsHeadlines' => $newsHeadlines,
           'regionalNews' => $regionalNews,

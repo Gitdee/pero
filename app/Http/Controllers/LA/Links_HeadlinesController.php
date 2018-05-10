@@ -23,7 +23,7 @@ class Links_HeadlinesController extends Controller
 {
 	public $show_action = true;
 	public $view_col = 'title_ua';
-	public $listing_cols = ['id', 'title_ua', 'title_ru', 'title_en', 'status', 'placing', 'position'];
+	public $listing_cols = ['id', 'title_ua', 'status', 'placing', 'position'];
 	
 	public function __construct() {
 		// Field Access of Listing Columns
