@@ -10,6 +10,30 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-3 left_side">
+    	<div class="row">
+    		<div class="col-lg-12">TV Program
+    			@if($tvProgram)
+    				<div style="height: 200px;overflow-y: scroll;overflow-x:hidden;">
+	    				@foreach($tvProgram as $dayIfno)
+	    					<div>@lang("main.date_" . $dayIfno["title"])({{$dayIfno["date"]}})</div>
+	    					@if($dayIfno["items"])
+									@foreach($dayIfno["items"] as $item)			
+										<div class="row">
+			                <div class="col-lg-2">
+			                	{{date("H:i", strtotime($item["datetime"]))}}
+			                </div>
+			                <div class="col-lg-10">
+			                	{!!$item["title"]!!}
+			                </div>
+			              </div>
+			            @endforeach
+		            @endif
+	    				@endforeach
+	    			</div>
+    			@endif
+        </div>
+    	</div>
+    	<br />
       <div class="row">
         <div class="col-lg-6">TV
         </div>
@@ -20,14 +44,24 @@
         @if($tvs)        
           <div class="col-lg-6">
             @foreach($tvs as $tv)
-              <a href="{{$tv["link"]}}">{{$tv["title"]}}</a><br />
+              <a href="{{$tv["link"]}}">
+              @if($tv["logo"])
+                <img src = "{{ url('files') . "/" . $tv["logo"]["hash"] . '/' . $tv["logo"]["name"] . "?s=20"}}" alt = "{{$tv["title"]}}" class = "">
+              @endif
+              {{$tv["title"]}}
+              </a><br />
             @endforeach
           </div>
         @endif
         @if($radios)        
           <div class="col-lg-6">
             @foreach($radios as $radio)
-              <a href="{{$radio["link"]}}">{{$radio["title"]}}</a><br />
+              <a href="{{$radio["link"]}}">
+              @if($radio["logo"])
+                <img src = "{{ url('files') . "/" . $radio["logo"]["hash"] . '/' . $radio["logo"]["name"] . "?s=20"}}" alt = "{{$radio["title"]}}" class = "">
+              @endif
+              {{$radio["title"]}}
+              </a><br />
             @endforeach
           </div>
         @endif
@@ -73,6 +107,9 @@
           <div class="text-right"><a href="{{ url('/news/main') }}">@lang('main.more_news')</a></div>
         </div>
       @endif
+      @php
+        $startDay = date("Y-m-d 00:00:00");                              
+      @endphp
       @if($newsHeadlines)
         @foreach($newsHeadlines as $newHeadline)
           <div>
@@ -82,7 +119,11 @@
                 @foreach($newHeadline["news"] as $new)
                   <div class="row">
                     <div class="col-lg-2">
-                      {{date("H:i", strtotime($new["datetime"]))}}
+                      @if(strtotime($new["datetime"]) > strtotime($startDay))
+                        {{date("H:i", strtotime($new["datetime"]))}}
+                      @else
+                        {{date("H:i", strtotime($new["datetime"]))}}<br /> {{date("j", strtotime($new["datetime"]))}} @lang('main.date_' . date("M", strtotime($new["datetime"])))
+                      @endif
                     </div>
                     <div class="col-lg-10">
                       <a target="_blank"  href="{{$new["link"]}}">{{$new["title"]}}</a>@if($new["resource_title"]) ({{$new["resource_title"]}})@endif
@@ -110,7 +151,11 @@
                 @foreach($newHeadline["news"] as $new)
                   <div class="row">
                     <div class="col-lg-2">
-                      {{date("H:i", strtotime($new["datetime"]))}}
+                      @if(strtotime($new["datetime"]) > strtotime($startDay))
+                        {{date("H:i", strtotime($new["datetime"]))}}
+                      @else
+                        {{date("H:i", strtotime($new["datetime"]))}}<br /> {{date("j", strtotime($new["datetime"]))}} @lang('main.date_' . date("M", strtotime($new["datetime"])))
+                      @endif
                     </div>
                     <div class="col-lg-10">
                       <a target="_blank"  href="{{$new["link"]}}">{{$new["title"]}}</a>@if($new["resource_title"]) ({{$new["resource_title"]}})@endif

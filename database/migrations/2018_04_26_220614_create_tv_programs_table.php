@@ -18,9 +18,9 @@ class CreateTvProgramsTable extends Migration
     public function up()
     {
         Module::generate("Tv_programs", 'tv_programs', 'title_ua', 'fa-calendar', [
-            ["title_ua", "Title(UA)", "TextField", false, "", 0, 256, true],
-            ["title_ru", "Title(RU)", "TextField", false, "", 0, 256, true],
-            ["title_en", "Title(EN)", "TextField", false, "", 0, 256, true],
+            ["title_ua", "Title(UA)", "Textarea", false, "", 0, 256, true],
+            ["title_ru", "Title(RU)", "Textarea", false, "", 0, 256, true],
+            ["title_en", "Title(EN)", "Textarea", false, "", 0, 256, true],
             ["datetime", "Datetime", "Datetime", false, "", 0, 0, true],
             ["status", "Status", "Checkbox", false, "0", 0, 0, false],
         ]);

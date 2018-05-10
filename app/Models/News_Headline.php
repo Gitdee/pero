@@ -60,7 +60,7 @@ class News_Headline extends Model
   
   public static function getShowsOnHomepage($newsCount = 5)
   {
-    $records = static::where("show_on_homepage", 1)->where("status", 1)->orderBy("position")->get();
+    $records = static::where("show_on_homepage", 1)->where("region_headline",0)->where("status", 1)->orderBy("position")->get();
     if($records){
       $dataRecords = [];
       $k = 0;
@@ -90,14 +90,29 @@ class News_Headline extends Model
     return $records;
   }
   
-  public static function getHeadlineWithNews($slug = "", $limit = 10, $offset = 0)
+  public static function getHeadlineWithNews($slug = "", $limit = 20, $offset = 0, $keyword = "")
   {
     $record = static::where("status", 1)->where("slug", $slug)->first();
     if($record){
         $recordData = $record->toArray();
-        $recordData["news"] = $record->news()->offset($offset)->limit($limit)->orderBy("datetime", "desc")->get()->toArray();
+        if($keyword){
+        	$recordData["news"] = $record->news()->where("title", "like", "%" . $keyword . "%")->offset($offset)->limit($limit)->orderBy("datetime", "desc")->get()->toArray();
+        }else{
+        	$recordData["news"] = $record->news()->offset($offset)->limit($limit)->orderBy("datetime", "desc")->get()->toArray();
+        }
         $record = $recordData;
     }
     return $record;
+  }
+  
+  public static function getAllHeadlines()
+  {
+    $records = static::where("region_headline", 0)->where("status", 1)->orderBy("position")->get()->toArray();
+    return $records;
+  }
+  public static function getAllRegionalHeadlines()
+  {
+    $records = static::where("region_headline", 1)->where("status", 1)->orderBy("position")->orderBy("title_ua")->get()->toArray();
+    return $records;
   }
 }

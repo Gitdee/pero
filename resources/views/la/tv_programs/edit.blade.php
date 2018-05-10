@@ -48,10 +48,39 @@
 		</div>
 	</div>
 </div>
-
+<style>
+    .wysihtml5-toolbar{
+        list-style: none;
+        display: block;
+        padding: 0;
+    }
+    .wysihtml5-toolbar li{
+        display: inline;
+    }
+    .wysihtml5-sandbox{
+    		max-height: 60px;
+    }
+</style>
 @endsection
 
 @push('scripts')
+<script src="{{ asset('la-assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}" type="text/javascript"></script>
+<script>
+$(function () {
+    $('textarea[name="title_ua"], textarea[name="title_ru"], textarea[name="title_en"]').wysihtml5({
+        toolbar:{
+    	"font-styles": false, //Font styling, e.g. h1, h2, etc. Default true
+    	"emphasis": true, //Italics, bold, etc. Default true
+    	"lists": false, //(Un)ordered lists, e.g. Bullets, Numbers. Default true
+    	"html": true, //Button which allows you to edit the generated HTML. Default false
+    	"link": true, //Button to insert a link. Default true
+    	"image": false, //Button to insert an image. Default true,
+    	"color": false, //Button to change color of font
+        "blockquote": false,
+        }  
+    });
+});
+</script>
 <script>
 $(function () {
 	$("#tv_program-edit-form").validate({

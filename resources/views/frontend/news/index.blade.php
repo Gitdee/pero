@@ -1,115 +1,120 @@
-@extends("frontend.layouts.app")
-
-@section("htmlheader_title")
-  @lang('news.news_meta_title')
-@endsection
-{{--
-@section("meta_description")@endsection
-@section("meta_keywords")@endsection
---}}
-
-
-@section("main-content")
-@php
-  $keyword = app('request')->input('keyword');
-@endphp
-<section class="container-fluid main-search all-news">
-   <div class="container">
-      @include('frontend.layouts.partials.header_filters')
-      <div class="row">
-  			 <div class="col-md-4 hidden-xs"></div>
-         <div class="col-md-8 text-center news-search-form">
-            <form id="orders-edit-form" role="form" action="{{ url('/news')}}" method="get" enctype="plain">
-              <div class="input-group">
-      				  <input type="text" name="keyword" value="{{$keyword}}" class="form-control" placeholder="">
-      				  <span class="input-group-btn">
-      					<button class="btn btn-primary" type="submit"><i class="fa  fa-search"></i></button>
-      				  </span>
-      				</div>
-            </form>
-          </div>
-      </div>
-   </div>
-</section>
-
-<section class="container-fluid papers-slider news-list">
-  <div class="container">
-    @if($clinicsNews)
-      @foreach($clinicsNews as $new)
-        <div class="row">
-           <div class="col-md-4">
-              <div class = "paper">
-                 @if($new->image)
-                  <img src="{{ url('files') . "/" . $new->image->hash . '/' . $new->image->name . "?s=360-240"}}" alt="" style="">
-                 @else
-                  <img src="{{ url('files') . "/default/default?s=360-240"}}" alt="" style="">
-                 @endif
-                 @if($new->datetime && $new->datetime != "0000-00-00 00:00:00")<span class="paper-date">{{date("d.m.y", strtotime($new->datetime))}}</span>@endif
-              </div>
-           </div>
-      	   <div class = "col-md-8">
-      			<p class = "paper-name">
-                <a href = "{{url('/news/' . $new->slug)}}">
-                  <span>{{$new->name}}</span>
-                </a>
-                <a href = "{{url('/news/' . $new->slug)}}" class = "paper-more"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
-             </p>
-             @if($new->clinic)
-              <p class = "paper-name">
-                <a href = "{{url('/clinic/' . $new->clinic->slug)}}">
-                  <span>{{$new->clinic->name}}</span>
-                </a>
-              </p>
-              @endif
-      			 <p class = "paper-content">
-        			 @php echo (mb_strimwidth($new->description, 0, 310, '...'))@endphp
-      			</p>
-            @if($new->tags_data)
-        			<p class = "papre-tags">
-        				@lang('news.news_tags'): 
-                @php
-                 $k = 0;
-                @endphp
-                @foreach($new->tags_data as $tKey => $tag)
-                  @if($k != 0), @endif<a href="{{url('/news')}}?keyword={{$tag}}">{{$tag}}</a>
-                  @php
-                   $k++;
-                  @endphp  
-                @endforeach
-        			</p>
-            @endif
-      	   </div>
-        </div>
-      @endforeach
-    @else
-      <div class="col-xs-12 text-justify">
-         @if($keyword)
-          <h2>@lang('news.no_records')</h2>
-         @else
-          <h2>@lang('homepage.no_records_news_title')</h2>
-         @endif
-      </div>
-    @endif
-  </div>
-</section>
-@if($clinicsNews)
-<div class="container">
-	<div class = "row"> 
-		<div class = "col-xs-12 text-center pagginator">
-		@if($keyword)
-      {{ $clinicsNews->appends(['keyword' => $keyword])->links() }}
-    @else
-      {{ $clinicsNews->links() }}
-    @endif
-		</div>
-	</div>
-</div>
-@endif
-
-@include('frontend.layouts.partials.call_action_footer')
-@endsection
-@push('styles')
-<link rel="stylesheet" href="{{ asset('/la-assets/css/kab-main.css') }}">
-@endpush
-@push('scripts')
+@extends("frontend.layouts.app")
+
+@section("htmlheader_title")
+  {{$headlineWithNews["meta_title"] ? $headlineWithNews["meta_title"] : $headlineWithNews["title"]}}
+@endsection
+
+@section("main-content")
+<div class="container">
+  <div class="row">
+    <div class="col-lg-3 left_side">
+    	<div class="row">
+    		<div class="col-lg-12">
+					Categories
+					<br />
+    			@if($newsHeadlines)
+    				@foreach($newsHeadlines as $newsHeadline)
+    					<a href="{{$newsHeadline["slug"]}}">{{$newsHeadline["title"]}}</a>
+							<br />
+    				@endforeach
+    			@endif
+        </div>
+    	</div>
+    	<br />
+      <br />
+      <div class="row">
+    		<div class="col-lg-12">
+					@lang('main.regional_category')
+					<br />
+    			@if($regionalHeadlines)
+    				@foreach($regionalHeadlines as $regionalHeadline)
+    					<a href="{{$regionalHeadline["slug"]}}">{{$regionalHeadline["title"]}}</a>
+							<br />
+    				@endforeach
+    			@endif
+        </div>
+    	</div>
+      <br />
+    </div>
+    <div class="col-lg-8"> 
+      @php
+        $startDay = date("Y-m-d 00:00:00");                              
+      @endphp
+      @if($headlineWithNews)
+        <div>
+          <h3>{{$headlineWithNews["title"]}}</h3>
+          <form class="text-right" action="" method="get">
+          	@php
+						  $keyword = app('request')->has('keyword') ? app('request')->input('keyword') : "";
+						  $page = app('request')->has('page') ? app('request')->input('page') : 1;
+						@endphp
+						<input type="text" name="keyword" value="{{$keyword}}"/>
+						<input type="submit" value=">" />
+						<br />
+						<br />
+						@if($page > 1)
+							<a href="{{url('news/' . $headlineWithNews["slug"] . '?keyword=' . $keyword . "&page=" . ($page-1))}}">Prev Page</a>
+						@endif
+						@if($headlineWithNews["news"])
+							<a href="{{url('news/' . $headlineWithNews["slug"] . '?keyword=' . $keyword . "&page=" . ($page+1))}}">Next Page</a>
+						@endif
+						<br />
+						<br />
+					</form>
+          @if($headlineWithNews["news"])
+            <div class="news_items">
+              @foreach($headlineWithNews["news"] as $new)
+                <div class="row" style="padding: 5px 0;">
+                  <div class="col-lg-2">
+                    @if(strtotime($new["datetime"]) > strtotime($startDay))
+                      {{date("H:i", strtotime($new["datetime"]))}}
+                    @else
+                      {{date("H:i", strtotime($new["datetime"]))}} {{date("j", strtotime($new["datetime"]))}} @lang('main.date_' . date("M", strtotime($new["datetime"])))
+                    @endif
+                  </div>
+                  <div class="col-lg-10">
+                    <a target="_blank"  href="{{$new["link"]}}">{{$new["title"]}}</a>@if($new["resource_title"]) ({{$new["resource_title"]}})@endif
+                  </div>
+                </div>
+              @endforeach
+            </div>
+          @endif
+        </div>
+      @endif
+      <br />
+    </div>
+    {{--<div class="col-lg-1 right_side">
+    </div>--}}
+  </div>
+</div>
+@endsection
+
+@push('styles')
+  <style>
+    body{
+      background: #ecf0f5;
+      color:
+    }
+    header{
+      background: #fff;
+      color: #2196f3;
+    }
+    footer{
+      background: #f3f3f3;
+      min-height: 50px;
+    }
+    .left_side{
+      background: #222d32;
+      color: #fff;
+      min-height: 300px;
+    }
+    .right_side{
+      background: #10cfbd;
+      color: #fff;
+      min-height: 200px;
+    }
+  </style>
+
+@endpush
+@push('scripts')
 @endpush

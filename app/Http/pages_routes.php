@@ -8,6 +8,7 @@ if(\Dwij\Laraadmin\Helpers\LAHelper::laravel_ver() == 5.3) {
 Route::group(['as' => $as, 'middleware' => []], function () {
   
   Route::get('lang/{lang}', 'LanguageController@switchLang');
+  Route::get('news/{slug}', 'NewsController@index');
  // Route::get('/{any}', 'PageController@index')->where('any', '.*');
 });
 

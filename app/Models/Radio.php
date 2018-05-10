@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\App;
 
+use App\Models\Upload;
+
 class Radio extends Model
 {
     use SoftDeletes;
@@ -30,4 +32,14 @@ class Radio extends Model
       $locale = App::getLocale();
       return $this->attributes['title_' . $locale] ;
   }
+  
+  public function getLogoAttribute()
+  {
+    if($this->attributes["logo"]){
+       return $this->attributes["logo"] = Upload::find($this->attributes["logo"]);
+    }else{
+       return $this->attributes["logo"] = null;
+    }
+  }
+  
 }

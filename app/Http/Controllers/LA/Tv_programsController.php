@@ -45,7 +45,7 @@ class Tv_programsController extends Controller
 	public function index()
 	{
 		$module = Module::get('Tv_programs');
-		
+		//test($this->listing_cols);
 		if(Module::hasAccess($module->id)) {
 			return View('la.tv_programs.index', [
 				'show_actions' => $this->show_action,

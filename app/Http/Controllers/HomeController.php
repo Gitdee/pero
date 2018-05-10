@@ -16,6 +16,7 @@ use App\Models\Links_Headline;
 use App\Models\News;
 use App\Models\Radio;
 use App\Models\Tv;
+use App\Models\Tv_program;
 /**
  * Class HomeController
  * @package App\Http\Controllers
@@ -47,7 +48,7 @@ class HomeController extends Controller
         $rightLinks = Links_Headline::getRightLinks();
         $radios = Radio::where("status",1)->orderBy("position")->get()->toArray();
         $tvs = Tv::where("status",1)->orderBy("position")->get()->toArray();
-        //test($tvs);
+    		$tvProgram = Tv_program::getTVProgram();
         return view('home', [
           'mainCategoryNews' => $mainCategoryNews,
           'newsHeadlines' => $newsHeadlines,
@@ -56,6 +57,7 @@ class HomeController extends Controller
           'rightLinks' => $rightLinks,
           'radios' => $radios,
           'tvs' => $tvs,
+          'tvProgram' => $tvProgram
         ]);
     }
 }

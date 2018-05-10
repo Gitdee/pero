@@ -56,15 +56,15 @@
 			{!! Form::open(['action' => 'LA\Tv_programsController@store', 'id' => 'tv_program-add-form']) !!}
 			<div class="modal-body">
 				<div class="box-body">
-                    @la_form($module)
+                    {{--@la_form($module)--}}
 					
-					{{--
+					
 					@la_input($module, 'title_ua')
 					@la_input($module, 'title_ru')
 					@la_input($module, 'title_en')
 					@la_input($module, 'datetime')
 					@la_input($module, 'status')
-					--}}
+					
 				</div>
 			</div>
 			<div class="modal-footer">
@@ -76,7 +76,19 @@
 	</div>
 </div>
 @endla_access
-
+<style>
+    .wysihtml5-toolbar{
+        list-style: none;
+        display: block;
+        padding: 0;
+    }
+    .wysihtml5-toolbar li{
+        display: inline;
+    }
+    .wysihtml5-sandbox{
+    		max-height: 60px;
+    }
+</style>
 @endsection
 
 @push('styles')
@@ -84,6 +96,7 @@
 @endpush
 
 @push('scripts')
+<script src="{{ asset('la-assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('la-assets/plugins/datatables/datatables.min.js') }}"></script>
 <script>
 $(function () {
@@ -103,6 +116,18 @@ $(function () {
 	$("#tv_program-add-form").validate({
 		
 	});
+    $('textarea[name="title_ua"], textarea[name="title_ru"], textarea[name="title_en"]').wysihtml5({
+        toolbar:{
+    	"font-styles": false, //Font styling, e.g. h1, h2, etc. Default true
+    	"emphasis": true, //Italics, bold, etc. Default true
+    	"lists": false, //(Un)ordered lists, e.g. Bullets, Numbers. Default true
+    	"html": false, //Button which allows you to edit the generated HTML. Default false
+    	"link": true, //Button to insert a link. Default true
+    	"image": false, //Button to insert an image. Default true,
+    	"color": false, //Button to change color of font
+        "blockquote": false,
+        }  
+    });
 });
 </script>
 @endpush
