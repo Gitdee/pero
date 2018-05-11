@@ -23,7 +23,7 @@ class BannersController extends Controller
 {
 	public $show_action = true;
 	public $view_col = 'title';
-	public $listing_cols = ['id', 'title', 'image', 'placing', 'status'];
+	public $listing_cols = ['id', 'title', 'placing', 'status'];
 	
 	public function __construct() {
 		// Field Access of Listing Columns

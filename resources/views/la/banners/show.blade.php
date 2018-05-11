@@ -109,7 +109,11 @@
 					<div class="panel-body">
 						@la_display($module, 'title')
 						@la_display($module, 'image')
+						@la_display($module, 'html')
+						@la_display($module, 'link')
 						@la_display($module, 'placing')
+						@la_display($module, 'start_publish')
+						@la_display($module, 'end_publish')
 						@la_display($module, 'status')
 					</div>
 				</div>

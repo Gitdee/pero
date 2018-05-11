@@ -36,7 +36,9 @@ class NewsSyncJob extends Job
               foreach($rItem->headline_ids as $hIDKey => $hIDItem){
                 if(isset($headlines[$hIDItem])){
                   $rItem->headlines[$hIDItem] = $headlines[$hIDItem];
-                  $rItem->headlines_categories[$hIDItem] = explode(",", $headlines[$hIDItem]->categories);
+                  //$rItem->headlines_categories[$hIDItem] = explode(",", $headlines[$hIDItem]->categories);
+                  //$rItem->headlines_categories[$hIDItem] = array_map("trim", $rItem->headlines_categories[$hIDItem]);
+                  $rItem->headlines_categories[$hIDItem] = json_decode($headlines[$hIDItem]->categories, 1);
                   $rItem->headlines_categories[$hIDItem] = array_map("trim", $rItem->headlines_categories[$hIDItem]);
                   $rItem->headlines_categories_all = array_merge($rItem->headlines_categories_all, $rItem->headlines_categories[$hIDItem]);
                 }

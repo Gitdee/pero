@@ -33,6 +33,12 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	Route::resource(config('laraadmin.adminRoute') . '/users', 'LA\UsersController');
 	Route::get(config('laraadmin.adminRoute') . '/user_dt_ajax', 'LA\UsersController@dtajax');
 	
+	Route::resource(config('laraadmin.adminRoute') . '/footer_menus', 'LA\Footer_MenusController');
+	Route::post(config('laraadmin.adminRoute') . '/footer_menus/update_hierarchy', 'LA\Footer_MenusController@update_hierarchy');
+	
+	Route::resource(config('laraadmin.adminRoute') . '/top_menus', 'LA\Top_MenusController');
+	Route::post(config('laraadmin.adminRoute') . '/top_menus/update_hierarchy', 'LA\Top_MenusController@update_hierarchy');
+	
 	/* ================== Uploads ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/uploads', 'LA\UploadsController');
 	Route::post(config('laraadmin.adminRoute') . '/upload_files', 'LA\UploadsController@upload_files');
@@ -99,4 +105,8 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	/* ================== Tv_programs ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/tv_programs', 'LA\Tv_programsController');
 	Route::get(config('laraadmin.adminRoute') . '/tv_program_dt_ajax', 'LA\Tv_programsController@dtajax');
+
+	/* ================== Pages ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/pages', 'LA\PagesController');
+	Route::get(config('laraadmin.adminRoute') . '/page_dt_ajax', 'LA\PagesController@dtajax');
 });

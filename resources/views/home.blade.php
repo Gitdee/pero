@@ -20,6 +20,13 @@
   <div class="row">
     <div class="col-lg-3 left_side">
     	<div class="row">
+				<iframe src="https://player.twitch.tv/?channel=tokismen" frameborder="0" allowfullscreen="true" scrolling="no" height="278" width="300"></iframe><a href="https://www.twitch.tv/tokismen?tt_content=text_link&tt_medium=live_embed" style="padding:2px 0px 4px; display:block; width:345px; font-weight:normal; font-size:10px; text-decoration:underline;">Смотрите прямую трансляцию tokismen на www.twitch.tv</a>
+				<br />
+				chat
+				<br />
+				<iframe src="https://www.twitch.tv/embed/tokismen/chat" frameborder="0" scrolling="no" height="200" width="300"></iframe>				
+			</div>
+    	<div class="row">
     		<div class="col-lg-12">TV Program
     			@if($tvProgram)
     				<div style="height: 200px;overflow-y: scroll;overflow-x:hidden;">
@@ -180,6 +187,27 @@
     </div>
     <div class="col-lg-3 right_side">
       Chat
+      <br />
+      Banners
+      @if($rightBanners)
+      	@foreach($rightBanners as $rightBanner)
+      		@if($rightBanner["html"] || $rightBanner["image"])
+					<div class="banner" style="max-width: 100%;">
+						@if($rightBanner["link"])
+							<a href="{{$rightBanner["link"]}}">
+						@endif
+						@if($rightBanner["html"])
+							{!!$rightBanner["html"]!!}
+						@elseif($rightBanner["image"])
+							<img style="max-width: 100%;" src = "{{ url('files') . "/" . $rightBanner["image"]["hash"] . '/' . $rightBanner["image"]["name"] . ""}}" alt = "" class = "">
+						@endif
+						@if($rightBanner["link"])
+								</a>
+							@endif
+					</div>
+					@endif
+      	@endforeach
+      @endif
       <br />
       Links
       @if($rightLinks)

@@ -20,7 +20,11 @@ class CreateBannersTable extends Migration
         Module::generate("Banners", 'banners', 'title', 'fa-buysellads', [
             ["title", "Title", "TextField", false, "", 0, 256, false],
             ["image", "Image", "Image", false, "", 0, 0, true],
-            ["placing", "Placing", "Dropdown", false, "", 0, 0, true, ["Hero","Right Side","Left Side"]],
+            ["html", "HTML", "HTML", false, "", 0, 0, false],
+            ["link", "Link", "URL", false, "", 0, 256, false],
+            ["placing", "Placing", "Dropdown", false, "", 0, 0, true, ["Hero","Right Side","Left Side","Category"]],
+            ["start_publish", "Publication Start", "Datetime", false, "", 0, 0, false],
+            ["end_publish", "Publication End", "Datetime", false, "", 0, 0, false],
             ["status", "Status", "Checkbox", false, "0", 0, 0, false],
         ]);
 		

@@ -1,5 +1,5 @@
 @extends("la.layouts.app")
-
+{{--Lang::get('admin.News')--}}
 @section("contentheader_title", "News")
 @section("contentheader_description", "News listing")
 @section("section", "News")

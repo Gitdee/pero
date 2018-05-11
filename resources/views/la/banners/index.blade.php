@@ -61,7 +61,11 @@
 					{{--
 					@la_input($module, 'title')
 					@la_input($module, 'image')
+					@la_input($module, 'html')
+					@la_input($module, 'link')
 					@la_input($module, 'placing')
+					@la_input($module, 'start_publish')
+					@la_input($module, 'end_publish')
 					@la_input($module, 'status')
 					--}}
 				</div>
