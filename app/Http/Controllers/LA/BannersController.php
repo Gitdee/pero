@@ -27,6 +27,7 @@ class BannersController extends Controller
 	
 	public function __construct() {
 		// Field Access of Listing Columns
+		Banner::$convertImage = false;
 		if(\Dwij\Laraadmin\Helpers\LAHelper::laravel_ver() == 5.3) {
 			$this->middleware(function ($request, $next) {
 				$this->listing_cols = ModuleFields::listingColumnAccessScan('Banners', $this->listing_cols);

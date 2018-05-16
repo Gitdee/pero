@@ -8,6 +8,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
 use DB;
 use Illuminate\Support\Facades\App;
@@ -40,7 +41,7 @@ class HomeController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $mainCategoryNews = News::where("main_thing", 1)->where(function($query){
 					$query->where("expire_main_thing", ">", date("Y-m-d H:i:s"));
@@ -55,10 +56,15 @@ class HomeController extends Controller
 					$query->orWhere("expire-running_line", "<", "2000-01-01 00:00:00");
 				})->orderBy("datetime", "desc")->limit(3)->get();
 				if($runningLineNews){
-					$runningLineNews = $runningLineNews0->toArray();
+					$runningLineNews = $runningLineNews->toArray();
 				}
         $newsHeadlines = News_Headline::getShowsOnHomepage(5);
         $regionalNews = News_Headline::getRegionals(5);
+        if($regionalNews){
+        	/*usort($regionalNews,function($a, $b){
+        		strcmp($a["region_title"], $b["region_title"]);
+        	});*/
+        }
         $leftLinks = Links_Headline::getLeftLinks();
         $rightLinks = Links_Headline::getRightLinks();
         $radios = Radio::where("status",1)->orderBy("position")->get();
@@ -71,7 +77,10 @@ class HomeController extends Controller
         }
     		$tvProgram = Tv_program::getTVProgram();
 				$rightBanners = Banner::rightBanners();
-				
+				$regionalID = Cookie::get('region_id');
+				if(!$regionalID && $regionalNews){
+					$regionalID = $regionalNews[0]["region_id"];
+				}
         return view('home', [
         	"runningLineNews" => $runningLineNews,
           'mainCategoryNews' => $mainCategoryNews,
@@ -82,7 +91,8 @@ class HomeController extends Controller
           'radios' => $radios,
           'tvs' => $tvs,
           'tvProgram' => $tvProgram,
-          'rightBanners' => $rightBanners
+          'rightBanners' => $rightBanners,
+          'regionalID' => $regionalID
         ]);
     }
 }

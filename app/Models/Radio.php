@@ -32,9 +32,12 @@ class Radio extends Model
       $locale = App::getLocale();
       return $this->attributes['title_' . $locale] ;
   }
-  
+  public static $convertImage = true;
   public function getLogoAttribute()
   {
+  	if(!self::$convertImage){
+  		return $this->attributes["logo"] = $this->attributes["logo"];
+  	}
     if($this->attributes["logo"]){
        return $this->attributes["logo"] = Upload::find($this->attributes["logo"]);
     }else{

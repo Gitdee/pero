@@ -12,13 +12,31 @@ return [
     | has failed, such as for an invalid token or invalid new password.
     |
     */
-    'rus' => 'Рус',
-    'ukr' => 'Укр',
-    'eng' => 'Eng',
+    'rus' => 'RU',
+    'ukr' => 'UA',
+    'eng' => 'EN',
+    
+    'header_title' => 'ЗдесЬ СвежиЕ НовостИ',
+    'header_search' => 'ПоисК',
+    'header_date_y' => 'г.',
+    'header_full_version' => 'Полная версия',
+    'header_weather' => 'ПогодА',
+    'header_currency' => 'ВалютА',
+    'header_fuel' => 'ГорючиЕ',
+    'header_goroskop' => 'ГороскоП',
+    'header_tv' => 'ТелевидениЕ',
+    'header_radio' => 'РадиостанциИ',
+    
+    'homepage_tv_program' => 'ТелепрограммА PERO.TV',
+    'homepage_tv_program_no_records' => 'Нет данных',
+    'homepage_tv' => 'ТелевидениЕ',
+    'homepage_radio' => 'РадиостанциИ',
+    'homepage_chat' => 'ЧаТ',
+    'homepage_no_records' => 'Нет данных',
     
     'more_news' => 'Больше новостей',
-    'main_category' => 'Главное',
-    'regional_category' => 'Региональные новости',
+    'main_category' => 'ГлавноЕ',
+    'regional_category' => 'РегиональныЕ НовостИ',
     
     
     "date_January" => "Января",
@@ -29,7 +47,7 @@ return [
     "date_Mar" => "Мар",
     "date_April" => "Апреля",
     "date_Apr" => "Апр",
-    "date_May" => "Мая",
+    "date_May_full" => "Мая",
     "date_May" => "Мая",
     "date_June" => "Июня",
     "date_Jun" => "Июн",

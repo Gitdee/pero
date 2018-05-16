@@ -93,7 +93,7 @@ $(function () {
         rowReorder: {
              update: false,
              //selector: 'tr',
-             dataSrc: 6//column position row
+             dataSrc: 4//column position row
          },
 		processing: true,
         serverSide: true,

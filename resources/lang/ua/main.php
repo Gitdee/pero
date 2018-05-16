@@ -12,13 +12,31 @@ return [
     | has failed, such as for an invalid token or invalid new password.
     |
     */
-    'rus' => 'Рус',
-    'ukr' => 'Укр',
-    'eng' => 'Eng',
+    'rus' => 'RU',
+    'ukr' => 'UA',
+    'eng' => 'EN',
+    
+    'header_title' => 'ТуТ ЗавждИ СвіжІ НовинИ',
+    'header_search' => 'ПошуК',
+    'header_date_y' => 'р.',
+    'header_full_version' => 'Повна версія',
+    'header_weather' => 'ПогодА',
+    'header_currency' => 'ВалютА',
+    'header_fuel' => 'ПальнЕ',
+    'header_goroskop' => 'ГороскоП',
+    'header_tv' => 'Телебачення',
+    'header_radio' => 'РадіостанціЇ',
+    
+    'homepage_tv_program' => 'ТелепрограмА PERO.TV',
+    'homepage_tv_program_no_records' => 'Немає даних',
+    'homepage_tv' => 'ТелебаченнЯ',
+    'homepage_radio' => 'РадіостанціЇ',  
+		'homepage_chat' => 'ЧаТ',    
+		'homepage_no_records' => 'Немає даних',
     
     'more_news' => 'Більше новин',
-    'main_category' => 'Головне',
-    'regional_category' => 'Регіональні новини',
+    'main_category' => 'ГоловнЕ',
+    'regional_category' => 'РегіональнІ НовинИ',
     
     "date_January" => "Січня",
     "date_Jan" => "Січ",
@@ -28,7 +46,7 @@ return [
     "date_Mar" => "Бер",
     "date_April" => "Квінтя",
     "date_Apr" => "Кві",
-    "date_May" => "Травня",
+    "date_May_full" => "Травня",
     "date_May" => "Тра",
     "date_June" => "Червня",
     "date_Jun" => "Чер",

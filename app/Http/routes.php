@@ -19,10 +19,12 @@ Route::get('/', function () {
 
 require __DIR__.'/admin_routes.php';
 
+/* ================== Cron Jobs Routes ================== */
+
+require __DIR__.'/jobs_routes.php';
+
+
 /* ================== Pages Routes ================== */
 
 require __DIR__.'/pages_routes.php';
 
-/* ================== Cron Jobs Routes ================== */
-
-require __DIR__.'/jobs_routes.php';

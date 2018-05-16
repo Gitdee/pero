@@ -3,9 +3,11 @@
 @section('htmlheader')
 	@include('frontend.layouts.partials.htmlheader')
 @show
-<body data-spy="scroll" data-offset="0" data-target="#navigation">
-@include('frontend.layouts.partials.navigations')
-<div class="">
+<body>
+@include('frontend.layouts.partials.header')
+<div class="container">
+	@include('frontend.layouts.partials.navigations')
+	@hasSection('news-line')@yield('news-line')@endif
 	@yield('main-content')
 </div><!-- ./wrapper -->
 @section('footer')

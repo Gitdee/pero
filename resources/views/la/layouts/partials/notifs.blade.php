@@ -2,23 +2,7 @@
 		<div class="navbar-custom-menu">
 			<ul class="nav navbar-nav">
 				<!-- Messages: style can be found in dropdown.less-->
-        <li>
-        <span style="padding-top: 15px; padding-bottom: 15px;display: block;padding-right: 10px;" class="dropdown lang">
-          <a href="#" class="dropdown-toggle lang-active" data-toggle="dropdown">
-              @lang('homepage.' . Config::get('languages')[App::getLocale()])<b class="caret"></b>
-          </a>
-          <ul class="dropdown-menu">
-              @foreach (Config::get('languages') as $lang => $language)
-                  @if ($lang != App::getLocale())
-                      <li>
-                          <a href="{{ url('/lang/' . $lang) }}">@lang('homepage.' . $language)</a>
-                      </li>
-                  @endif
-              @endforeach
-          </ul>
-        </span>
-        </li>
-				@if(LAConfigs::getByKey('show_messages'))
+        @if(LAConfigs::getByKey('show_messages'))
 				<li class="dropdown messages-menu">
 					<!-- Menu toggle button -->
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">

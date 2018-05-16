@@ -1,0 +1,65 @@
+.chat-content.main-block-scroll{
+	height: calc(100% - 10px);
+	padding: 0;
+}
+
+.programm-content .row{
+	margin-bottom: 10px;
+	display: inline-block;
+}
+.programm-content p{
+	display: inline;
+}
+.programm-content .title{
+	border-bottom: 1px solid #eee;
+  display: inline-block;
+  width: 100%;
+  padding-bottom: 5px;
+}
+.programm-content .title .date{
+	font-size: 0.8em;
+}
+.programm-content .time-block{
+	color: red;
+	display: inline;
+}
+.col-1 .media-list-content{
+	padding-top: 30px;	
+}
+
+.region_news_container{
+	display: none;
+}
+.region_news_container.active{
+	display: block;
+}
+
+.region-header{
+	cursor: pointer;
+}
+
+.wrap.main-block .second-banners{
+	overflow-y: scroll !important;
+	height: 100%;
+	box-sizing: border-box;
+}
+.wrap.main-block .second-banners .banner{
+	max-width: 100%;
+}
+.wrap.main-block .second-banners .banner *{
+	max-width: 100%;
+}
+
+.top-baner{
+	background: initial;
+	overflow: hidden;
+}
+.top-baner .banner *{
+	max-width: 100%;
+	max-height: 100%;
+	height: auto;
+}
+
+.category-page .sitelist-header:after{
+	display: none;
+}

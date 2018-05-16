@@ -26,6 +26,7 @@ class RadiosController extends Controller
 	public $listing_cols = ['id', 'title_ua', 'link', 'status', 'position'];
 	
 	public function __construct() {
+		Radio::$convertImage = false;
 		// Field Access of Listing Columns
 		if(\Dwij\Laraadmin\Helpers\LAHelper::laravel_ver() == 5.3) {
 			$this->middleware(function ($request, $next) {

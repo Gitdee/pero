@@ -13,6 +13,7 @@ use DB;
 use Illuminate\Support\Facades\App;
 use App\Models\News_Headline;
 use App\Models\News;
+use App\Models\Banner;
 /**
  * Class NewsController
  * @package App\Http\Controllers
@@ -46,19 +47,22 @@ class NewsController extends Controller
         $offset = $limit*($page - 1);
         
         $headlineWithNews = News_Headline::getHeadlineWithNews($slug, $limit, $offset, $keyword);
-        /*
+        $categoryBanners = Banner::categoryBanners();
+        
         if($request->ajax()){
-            return "AJAX";
-            $contents = view('frontend.news.list', [
-		          'headlineWithNews' => $headlineWithNews,
-		        ])->render();
-		        test($contents);
+          $html = view('frontend.news.list', [
+	          'headlineWithNews' => $headlineWithNews,
+	        ])->render();
+	        return response()->json([
+		        'html' => $html,
+		        'has_more' => $html ? 1 : 0
+		      ]);
         }
-        */
         return view('frontend.news.index', [
           'newsHeadlines' => $newsHeadlines,
           'regionalHeadlines' => $regionalHeadlines,
           'headlineWithNews' => $headlineWithNews,
+          'categoryBanners' => $categoryBanners
         ]);
     }
 }

@@ -1,7 +1,7 @@
 <head>
 
     <meta charset="utf-8">
-    
+    <meta name="viewport" content="width=device-width">
     <title>@hasSection('htmlheader_title')@yield('htmlheader_title') - @endif{{ LAConfigs::getByKey('sitename') }}</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,14 +11,17 @@
     <meta name="keywords" content="@hasSection('meta_keywords')@yield('meta_keywords') @endif{{ LAConfigs::getByKey('site_keywords') }}">
 
     <link rel="shortcut icon" href="{{ asset('/la-assets/favicon.ico') }}" type="image/x-icon">
-
+		{{--
   	<!-- Bootstrap core CSS -->
-
+		
     <link href="{{ asset('/la-assets/css/bootstrap.css') }}" rel="stylesheet">
 
-    <link href="{{ asset('la-assets/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('la-assets/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css" />--}}
 
-
+		<link href="{{ asset('/la-assets/css/normalize.css') }}" rel="stylesheet">
+		<link href="{{ asset('/la-assets/css/style.css') }}" rel="stylesheet">
+		<link href="{{ asset('/la-assets/css/custom.css') }}" rel="stylesheet">
+		
     <script>
 
       var base_url = '{{url('/')}}';

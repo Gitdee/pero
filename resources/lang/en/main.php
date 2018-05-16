@@ -12,13 +12,31 @@ return [
     | has failed, such as for an invalid token or invalid new password.
     |
     */
-    'rus' => 'Rus',
-    'ukr' => 'Ukr',
-    'eng' => 'Eng',
+    'rus' => 'RU',
+    'ukr' => 'UA',
+    'eng' => 'EN',
+    
+    'header_title' => 'HerE AlwayS FresH NewS', 
+    'header_search' => 'SearcH',
+    'header_date_y' => 'y.',
+    'header_full_version' => 'Full Version',
+    'header_weather' => 'WeatheR',
+    'header_currency' => 'CurrencY',
+    'header_fuel' => 'FueL',
+    'header_goroskop' => 'HoroscopE',
+    'header_tv' => 'TV',
+    'header_radio' => 'Radio stationS',
+    
+    'homepage_tv_program' => 'TV ProgramS PERO.TV',
+    'homepage_tv_program_no_records' => 'No data',
+    'homepage_tv' => 'TV',
+    'homepage_radio' => 'Radio stationS',
+    'homepage_chat' => 'ChaT',
+    'homepage_no_records' => 'No data',
     
     'more_news' => 'More News',
-    'main_category' => 'Main News',
-    'regional_category' => 'Regional News',
+    'main_category' => 'MaiN NewS',
+    'regional_category' => 'RegionaL NewS',
     
     "date_January" => "January",
     "date_Jan" => "Jan",
@@ -28,7 +46,7 @@ return [
     "date_Mar" => "Mar",
     "date_April" => "April",
     "date_Apr" => "Apr",
-    "date_May" => "May",
+    "date_May_full" => "May",
     "date_May" => "May",
     "date_June" => "June",
     "date_Jun" => "Jun",

@@ -61,7 +61,7 @@ class NewsSyncJob extends Job
     
     
     public function getRSSFeeds($rssURL, $rssObject){
-       $rss = simplexml_load_file($rssURL);
+       $rss = @simplexml_load_file($rssURL);
        $news = array();
        $k = 0;
        

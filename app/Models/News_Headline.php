@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\App;
 
 use Lang;
 use App\Models\News;
+use App\Models\Region;
+use DB;
 
 class News_Headline extends Model
 {
@@ -26,12 +28,23 @@ class News_Headline extends Model
 	protected $guarded = [];
 
 	protected $dates = ['deleted_at'];
-  protected $appends = ['title', 'more_button', 'meta_title', 'meta_keywords', 'meta_description'];
+  protected $appends = ['title', 'more_button', 'meta_title', 'meta_keywords', 'meta_description', 'region_title'];
   
   public function news()
   {
       return $this->hasMany(News::class, 'headline_id', 'id');
   }
+  
+  public function region()
+  {
+      return $this->belongsTo(Region::class, 'region_id', 'id');
+  }	  
+  
+  public function getRegionTitleAttribute()
+  {
+      $region = $this->region()->first();
+      return isset($region->name) ? $region->name : "";
+  } 
   
   public function getTitleAttribute()
   {
@@ -67,7 +80,7 @@ class News_Headline extends Model
       $k = 0;
       foreach($records as $record){
         $dataRecords[$k] = $record->toArray();
-        $dataRecords[$k]["news"] = $record->news()->limit($newsCount)->orderBy("datetime", "desc")->get()->toArray();
+        $dataRecords[$k]["news"] = $record->news()->select('*', DB::raw('count(*) as total'))->groupBy("title")->limit($newsCount)->orderBy("datetime", "desc")->get()->toArray();
         $k++;
       }
       $records = $dataRecords;

@@ -1,22 +1,210 @@
 @extends("frontend.layouts.app")
 
 @section("htmlheader_title")
-  {{--LAConfigs::getByKey('homepage_meta_title')--}}
-  News
+  @lang('main.header_title')
+@endsection
+
+@section("news-line")
+	@include('frontend.layouts.partials.news_line')
 @endsection
 
 @section("main-content")
-{{--@include('frontend.layouts.partials.newsletter')--}}
+
+<div class="wrap main-block">
+    <div class="programm">
+        <h2 id="programm-header" class="block-header">@lang("main.homepage_tv_program")</h2>
+        <div id="programm-content" class="main-block-scroll programm-content">
+          @if($tvProgram)
+    				@foreach($tvProgram as $dayIfno)
+	    					<p class="title"><strong>@lang("main.date_" . $dayIfno["title"])</strong> <span class="date">({{$dayIfno["date"]}})</span>:</p>
+	    					@if($dayIfno["items"])
+									@foreach($dayIfno["items"] as $item)			
+										<div class="row">
+											<span class="time-block">{{date("H:i", strtotime($item["datetime"]))}}</span>
+			                {!!$item["title"]!!}
+		                </div>
+			            @endforeach
+		            @endif
+	    				@endforeach
+	    		@else
+	    			<p class="title" style="border: 0;">@lang('main.homepage_tv_program_no_records')</p>
+    			@endif
+        </div>
+    </div>
+    <div class="video-strimm">
+        <iframe src="https://player.twitch.tv/?channel=tokismen" frameborder="0" allowfullscreen="true" allow="autoplay; encrypted-media"></iframe>
+    </div>
+		<div class="chat">
+			<h2 id="chat-header" class="block-header">@lang('main.homepage_chat')</h2>
+        <div id="chat-content" class="main-block-scroll chat-content"">
+					<iframe src="https://www.twitch.tv/embed/tokismen/chat" frameborder="0" scrolling="no" height="288" width="225"></iframe>
+				</div>
+		</div>
+		@if($rightBanners)
+		 	<div class="second-banners main-block-scroll">
+      	@foreach($rightBanners as $rightBanner)
+      		@if($rightBanner["html"] || $rightBanner["image"])
+					<div class="banner">
+						@if($rightBanner["link"])
+							<a href="{{$rightBanner["link"]}}">
+						@endif
+						@if($rightBanner["html"])
+							{!!$rightBanner["html"]!!}
+						@elseif($rightBanner["image"])
+							<img style="max-width: 100%;" src = "{{ url('files') . "/" . $rightBanner["image"]["hash"] . '/' . $rightBanner["image"]["name"] . ""}}" alt = "" class = "">
+						@endif
+						@if($rightBanner["link"])
+								</a>
+							@endif
+					</div>
+					@endif
+      	@endforeach
+    	</div>
+    @endif
+
+</div>
+
+
+
+<div class="wrap other-blocks">
+  <div class="col-1">
+      <div class="mediablock">
+          <h2 id="but-rd" class="block-header media" onclick="show('list-radio')">@lang('main.homepage_radio')</h2>
+          <h2 id="but-tv" class="block-header media active" onclick="show('list-tv')">@lang('main.homepage_tv')</h2>
+          <div id="list-radio" class="media-list-content">
+            @if($radios)        
+	            @foreach($radios as $radio)
+	              <p>
+									<a href="{{$radio["link"]}}">
+		              @if($radio["logo"])
+		                <img src = "{{ url('files') . "/" . $radio["logo"]["hash"] . '/' . $radio["logo"]["name"] . "?s=16"}}" alt = "{{$radio["title"]}}" class = "">
+		              @endif
+		              {{$radio["title"]}}
+		              </a>
+	              </p>
+	            @endforeach
+		       	@else
+         			<p>@lang('main.homepage_no_records')</p>
+		        @endif
+          </div>
+          <div id="list-tv" class="media-list-content">
+        		@if($tvs)    
+		            @foreach($tvs as $tv)
+			            <p>
+										<a href="{{$tv["link"]}}">
+			              @if($tv["logo"])
+			                <img src = "{{ url('files') . "/" . $tv["logo"]["hash"] . '/' . $tv["logo"]["name"] . "?s=16"}}" alt = "{{$tv["title"]}}" class = "">
+			              @endif
+			              {{$tv["title"]}}
+			              </a>
+			            </p>
+		            @endforeach
+         		@else
+         			<p>@lang('main.homepage_no_records')</p>
+		        @endif
+          </div>
+      </div>
+		
+			@if($leftLinks)
+				<div class="siteslist">
+	        @foreach($leftLinks as $leftLinkHeadline)
+            <h3 class="sitelist-header">{{$leftLinkHeadline["title"]}}</h3>
+            @if($leftLinkHeadline["links"])
+            	@foreach($leftLinkHeadline["links"] as $link)
+                <a target="_blank"  href="{{$link["link"]}}">{{$link["title"]}}</a>
+              @endforeach
+            @endif
+	        @endforeach
+        </div>
+      @endif
+  </div>
+  <div class="col-2">
+			@if($mainCategoryNews)
+	      <div class="main-news">
+	          <a href="{{ url('/news/main') }}"><h2 class="center-block-header {{--lastFirstUpper--}}">@lang('main.main_category')</h2></a>
+	          @foreach($mainCategoryNews as $new)
+	          	<p><a target="_blank" href="{{$new["link"]}}">{{$new["title"]}}</a>@if($new["resource_title"]) ({{$new["resource_title"]}})@endif</p>
+	          @endforeach
+	          <h3 class="center-block-more"><a href="{{ url('/news/main') }}">@lang('main.more_news')</a></h3>
+	      </div>
+      @endif
+      
+      @php
+        $startDay = date("Y-m-d 00:00:00");                              
+      @endphp
+      @if($newsHeadlines)
+      	@foreach($newsHeadlines as $newHeadline)
+	      	<div class="main-news politics">
+	          <a href="{{ url('/news/' . $newHeadline["slug"]) }}"><h2 class="center-block-header {{--lastFirstUpper--}}">{{$newHeadline["title"]}}</h2><a></a>
+	          @if($newHeadline["news"])
+							@foreach($newHeadline["news"] as $new)
+								<p>
+									<span class="time">
+										@if(strtotime($new["datetime"]) > strtotime($startDay))
+                      {{date("H:i", strtotime($new["datetime"]))}}
+                    @else
+                      {{date("H:i", strtotime($new["datetime"]))}}<br /> {{date("j", strtotime($new["datetime"]))}} @lang('main.date_' . date("M", strtotime($new["datetime"])))
+                    @endif
+									</span>
+									<a target="_blank"  href="{{$new["link"]}}">{{$new["title"]}}</a>@if($new["resource_title"]) ({{$new["resource_title"]}})@endif
+								</p>
+			        @endforeach
+	         	@endif
+	          <h3 class="center-block-more"><a href="{{ url('/news/' . $newHeadline["slug"]) }}">@if($newHeadline["more_button"]){{$newHeadline["more_button"]}}@else @lang('main.more_news')@endif</a></h3>
+	      	</div>
+	      @endforeach
+			@endif
+			
+			@if($regionalNews)
+	      <div class="main-news politics regions_wrapper">
+	          <h2 class="center-block-header region-header" onclick="show('region-more')">
+              @foreach($regionalNews as $newHeadline)
+								@if($newHeadline["region_id"] == $regionalID)<span class="regions_title">{{$newHeadline["title"]}}</span>@endif
+							@endforeach
+              <div id="region-more" class="show-more">
+                  @foreach($regionalNews as $newHeadline)
+										<a data-region_title="{{$newHeadline["title"]}}" data-region_id="{{$newHeadline["region_id"]}}" href="javascript:;" @if($newHeadline["region_id"] == $regionalID)class="activecity"@endif>{{$newHeadline["region_title"]}}</a>
+									@endforeach
+              </div>
+	          </h2>
+						@foreach($regionalNews as $newHeadline)
+		          <div class="region_news_container @if($newHeadline["region_id"] == $regionalID) active @endif" id="region_news_container_region_{{$newHeadline["region_id"]}}">
+			          @foreach($newHeadline["news"] as $new)
+									<p>
+										<span class="time">
+											@if(strtotime($new["datetime"]) > strtotime($startDay))
+	                      {{date("H:i", strtotime($new["datetime"]))}}
+	                    @else
+	                      {{date("H:i", strtotime($new["datetime"]))}}<br /> {{date("j", strtotime($new["datetime"]))}} @lang('main.date_' . date("M", strtotime($new["datetime"])))
+	                    @endif
+										</span>
+										<a target="_blank"  href="{{$new["link"]}}">{{$new["title"]}}</a>@if($new["resource_title"]) ({{$new["resource_title"]}})@endif
+									</p>
+			         	@endforeach
+			          <h3 class="center-block-more"><a href="{{ url('/news/' . $newHeadline["slug"]) }}">@if($newHeadline["more_button"]){{$newHeadline["more_button"]}}@else @lang('main.more_news')@endif</a></h3>
+		          </div>
+		      	@endforeach
+	      </div>
+      @endif
+  </div>
+  <div class="col-3 siteslist">
+  @if($rightLinks)
+    @foreach($rightLinks as $rightLinkHeadline)
+      <h3 class="sitelist-header">{{$rightLinkHeadline["title"]}}</h3>
+      @if($rightLinkHeadline["links"])
+        @foreach($rightLinkHeadline["links"] as $link)
+          <a target="_blank"  href="{{$link["link"]}}">{{$link["title"]}}</a>
+        @endforeach
+      @endif
+    @endforeach
+  @endif
+  </div>
+</div>
+
+
+
+{{--
 <div class="container">
-	<div class="row">
-		@if($runningLineNews)
-		<marquee direction="left" style="background: #1080cf;color: #fff;height: 40px;line-height: 40px;">
-	    @foreach($runningLineNews as $new)
-	    	{{$new["title"]}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	    @endforeach
-	  </marquee>
-	  @endif
-	</div>
   <div class="row">
     <div class="col-lg-3 left_side">
     	<div class="row">
@@ -232,34 +420,10 @@
     </div>
   </div>
 </div>
+--}}
 @endsection
 
 @push('styles')
-  <style>
-    body{
-      background: #ecf0f5;
-      color:
-    }
-    header{
-      background: #fff;
-      color: #2196f3;
-    }
-    footer{
-      background: #f3f3f3;
-      min-height: 50px;
-    }
-    .left_side{
-      background: #222d32;
-      color: #fff;
-      min-height: 300px;
-    }
-    .right_side{
-      background: #10cfbd;
-      color: #fff;
-      min-height: 200px;
-    }
-  </style>
-
 @endpush
 @push('scripts')
 @endpush

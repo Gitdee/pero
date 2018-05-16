@@ -8,6 +8,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 
 use DB;
 
@@ -49,5 +50,17 @@ class PageController extends Controller
         return view('errors.404', [
 			  ]); 
       }      
+    }
+    
+    public function set_region(Request $request){
+    	$regionalID = $request->region_id;
+    	$cookie = null;
+    	if($regionalID){
+    		$cookie = Cookie::make('region_id', $regionalID, 360);	
+    	}
+    	//test(Cookie::get('region_id'));
+    	return response()->json([
+        'status' => "success"
+      ])->withCookie($cookie);
     }
 }
