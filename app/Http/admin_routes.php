@@ -113,4 +113,6 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	/* ================== Regions ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/regions', 'LA\RegionsController');
 	Route::get(config('laraadmin.adminRoute') . '/region_dt_ajax', 'LA\RegionsController@dtajax');
+	
+	Route::resource(config('laraadmin.adminRoute') . '/site_configs', '\App\Http\Controllers\LA\LAConfig2Controller');
 });

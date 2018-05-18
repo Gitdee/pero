@@ -95,6 +95,7 @@
 <script>
 $(function () {
 	$("#example1").DataTable({
+		order: [[ 4, "desc" ]],
 		processing: true,
         serverSide: true,
         ajax: "{{ url(config('laraadmin.adminRoute') . '/news_dt_ajax') }}",

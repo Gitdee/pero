@@ -56,15 +56,18 @@
 			{!! Form::open(['action' => 'LA\News_Resources_RSSesController@store', 'id' => 'news_resources_rss-add-form']) !!}
 			<div class="modal-body">
 				<div class="box-body">
-                    @la_form($module)
+                    {{--@la_form($module)--}}
 					
-					{{--
+					
 					@la_input($module, 'title')
 					@la_input($module, 'rss')
 					@la_input($module, 'headline_ids')
 					@la_input($module, 'status')
 					@la_input($module, 'socia_network')
-					--}}
+					{{--@la_input($module, 'last_sync')--}}
+					@la_input($module, 'sync_start')
+					@la_input($module, 'sync_end')
+					
 				</div>
 			</div>
 			<div class="modal-footer">

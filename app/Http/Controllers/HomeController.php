@@ -20,6 +20,8 @@ use App\Models\Tv;
 use App\Models\Tv_program;
 use App\Models\Banner;
 
+use Dwij\Laraadmin\Models\LAConfigs;
+
 use Stichoza\GoogleTranslate\TranslateClient;
 
 use Google\Cloud\Translate\TranslateClient as GoogleTranslateClient;
@@ -52,10 +54,14 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $mainCategoryNews = News::where("main_thing", 1)->where(function($query){
+        $numberNews = (int)LAConfigs::getByKey('number_news_in_main_category');
+				if(!$numberNews){
+					$numberNews = 3;
+				}
+				$mainCategoryNews = News::where("main_thing", 1)->where(function($query){
 					$query->where("expire_main_thing", ">", date("Y-m-d H:i:s"));
 					$query->orWhere("expire_main_thing", "<", "2000-01-01 00:00:00");
-				})->orderBy("datetime", "desc")->limit(3)->get();
+				})->orderBy("datetime", "desc")->limit($numberNews)->get();
 				if($mainCategoryNews){
 					$mainCategoryNews = $mainCategoryNews->toArray();
 				}
@@ -81,7 +87,7 @@ class HomeController extends Controller
 				test($result);*/
 				/***/
 				//$textTitle = $runningLineNews[0]["title"];
-				//$tr = new TranslateClient(null, 'en');
+				$tr = new TranslateClient(null, 'en');
 				//http://translate.googleapis.com
 				//$tr->setUrlBase('http://translate.google.cn/translate_a/single');
 				//$tr->setUrlBase('http://translate.googleapis.com/translate_a/single');
@@ -94,17 +100,20 @@ class HomeController extends Controller
 				if($allNews){
 					foreach($allNews as $new){
 						$text = $new->title;
+						test($tr->translate($text));
 						if(!$new->title_ru){
 							$new->title_ru = $text;
 						}
-						test($tr->translate($text));
+						if($new->title_en){
+							continue;
+						}
 						if(!$new->title_en){
 							$new->title_en = $tr->translate($text);
 						}
 						if($new->title_en){
 							$new->save();
 						}
-						$new->save();
+						//$new->save();
 					}
 				}
 				exit("exit");
@@ -113,9 +122,12 @@ class HomeController extends Controller
 				/**/
 				
 				
-				
-        $newsHeadlines = News_Headline::getShowsOnHomepage(5);
-        $regionalNews = News_Headline::getRegionals(5);
+				$numberNews = (int)LAConfigs::getByKey('number_news');
+				if(!$numberNews){
+					$numberNews = 5;
+				}
+        $newsHeadlines = News_Headline::getShowsOnHomepage($numberNews);
+        $regionalNews = News_Headline::getRegionals($numberNews);
         if($regionalNews){
         	/*usort($regionalNews,function($a, $b){
         		strcmp($a["region_title"], $b["region_title"]);

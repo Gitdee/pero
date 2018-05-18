@@ -112,6 +112,8 @@
 						@la_display($module, 'headline_ids')
 						@la_display($module, 'status')
 						@la_display($module, 'socia_network')
+						@la_display($module, 'sync_start')
+						@la_display($module, 'sync_end')
 					</div>
 				</div>
 			</div>

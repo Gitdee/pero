@@ -23,6 +23,9 @@ class CreateNewsResourcesRssesTable extends Migration
             ["headline_ids", "News Headlines", "Multiselect", false, "", 0, 0, true, "@news_headlines"],
             ["status", "Status", "Checkbox", false, "0", 0, 0, false],
             ["socia_network", "Social network", "Checkbox", false, "0", 0, 0, false],
+            ["last_sync", "Last Sync", "Datetime", false, "", 0, 0, false],
+            ["sync_start", "Sync Start", "Datetime", false, "", 0, 0, false],
+            ["sync_end", "Sync End", "Datetime", false, "", 0, 0, false],
         ]);
 		
 		/*

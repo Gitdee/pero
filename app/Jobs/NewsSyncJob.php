@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use DB;
 use App\Models\News;
 
+use Stichoza\GoogleTranslate\TranslateClient;
+use Google\Cloud\Translate\TranslateClient as GoogleTranslateClient;
+
 class NewsSyncJob extends Job
 {
     /**
@@ -13,8 +16,10 @@ class NewsSyncJob extends Job
      *
      * @return void
      */
+    public $translateClient = null;
     public function __construct()
     {
+    	$this->translateClient = new TranslateClient(null, 'en');
     }
 
     /**
@@ -24,10 +29,15 @@ class NewsSyncJob extends Job
      */
     public function handle()
     {
-        $rsses = collect(DB::table("news_resources_rsses")->whereNull('deleted_at')->where('status', 1)->where('socia_network', 0)->get(["id", "title", "rss", "headline_ids", "last_sync"]))->keyBy("id");
+        $rsses = collect(DB::table("news_resources_rsses")->whereNull('deleted_at')->where('status', 1)->where('socia_network', 0)->get(["id", "title", "rss", "headline_ids", "last_sync", "sync_start", "sync_end"]))->keyBy("id");
         $headlines = collect(DB::table("news_headlines")->whereNull('deleted_at')->where('status', 1)->get(["id", "title_ua", "categories"]))->keyBy("id");
         if($rsses && $headlines){
           foreach($rsses as $rKey => $rItem){
+          	if($rItem->sync_start != '0000-00-00 00:00:00' && $rItem->sync_end != '0000-00-00 00:00:00'){
+          		if(strtotime($rItem->sync_start) > time() || strtotime($rItem->sync_end) < time()){
+          			continue;
+          		}
+						}
             $rItem->headline_ids = json_decode($rItem->headline_ids, 1);
             $rItem->headlines = array();
             $rItem->headlines_categories = array();
@@ -82,6 +92,7 @@ class NewsSyncJob extends Job
                   $news[$k]["resource_id"] = $rssObject->id;
                   $news[$k]["title_ua"] = trim($item->title);
                   $news[$k]["title_ru"] = trim($item->title);
+                  $news[$k]["title_en"] = $this->translateClient->translate(trim($item->title));
                   $news[$k]["guid"] = $guID;
                   $news[$k]["link"] = trim($item->link);
                   $news[$k]["datetime"] = date("Y-m-d H:i:s", strtotime($pubDate));

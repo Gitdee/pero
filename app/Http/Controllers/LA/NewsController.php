@@ -23,7 +23,7 @@ class NewsController extends Controller
 {
 	public $show_action = true;
 	public $view_col = 'title';
-	public $listing_cols = ['id', 'title_ua', 'title_ru', 'title_en', 'headline_id', 'resource_id', 'link', 'datetime', 'guid', 'main_thing', 'expire_main_thing', 'running_line', 'expire-running_line'];
+	public $listing_cols = ['id', 'title_ua', 'headline_id', 'resource_id', 'datetime', 'fixed_new', 'main_thing', 'running_line'];
 	
 	public function __construct() {
 		// Field Access of Listing Columns
