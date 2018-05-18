@@ -115,7 +115,11 @@ class SocialNewsSyncJob extends Job
                   $news[$k]["resource_id"] = $rssObject->id;
                   $news[$k]["title_ua"] = trim($item->full_text);
                   $news[$k]["title_ru"] = trim($item->full_text);
-                  $news[$k]["title_en"] = $this->translateClient->translate(trim($item->full_text));
+                  try{
+										$news[$k]["title_en"] = $this->translateClient->translate(trim($item->full_text));
+                  }catch(Exception $e){
+                  	$news[$k]["title_en"] = "";
+                  }
                   $news[$k]["guid"] = trim($item->id_str);
                   $news[$k]["link"] = "https://twitter.com/" . trim($item->user->screen_name) . "/status/" . trim($item->id_str);
                   $news[$k]["datetime"] = date("Y-m-d H:i:s", strtotime($pubDate));

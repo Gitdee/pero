@@ -92,7 +92,11 @@ class NewsSyncJob extends Job
                   $news[$k]["resource_id"] = $rssObject->id;
                   $news[$k]["title_ua"] = trim($item->title);
                   $news[$k]["title_ru"] = trim($item->title);
-                  $news[$k]["title_en"] = $this->translateClient->translate(trim($item->title));
+                  try{
+                  	$news[$k]["title_en"] = $this->translateClient->translate(trim($item->title));
+                  }catch(Exception $e){
+                  	$news[$k]["title_en"] = "";
+                  }
                   $news[$k]["guid"] = $guID;
                   $news[$k]["link"] = trim($item->link);
                   $news[$k]["datetime"] = date("Y-m-d H:i:s", strtotime($pubDate));
