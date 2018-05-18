@@ -19,7 +19,16 @@ use App\Models\Radio;
 use App\Models\Tv;
 use App\Models\Tv_program;
 use App\Models\Banner;
+
+use Stichoza\GoogleTranslate\TranslateClient;
+
+use Google\Cloud\Translate\TranslateClient as GoogleTranslateClient;
 /**
+ * translates
+ * https://github.com/GoogleCloudPlatform/google-cloud-php
+ * https://stackoverflow.com/questions/31409481/google-translate-api-curl-not-working-in-a-laravel-5-project
+ * https://github.com/Stichoza/google-translate-php
+ * 
  * Class HomeController
  * @package App\Http\Controllers
  */
@@ -58,6 +67,53 @@ class HomeController extends Controller
 				if($runningLineNews){
 					$runningLineNews = $runningLineNews->toArray();
 				}
+				
+				/*GoogleTranslateClient*/
+				/*
+				$translate = new GoogleTranslateClient([
+				    'key' => 'your_key'
+				]);
+				
+				// Translate text from english to french.
+				$result = $translate->translate('Hello world!', [
+				    'target' => 'fr'
+				]);
+				test($result);*/
+				/***/
+				//$textTitle = $runningLineNews[0]["title"];
+				//$tr = new TranslateClient(null, 'en');
+				//http://translate.googleapis.com
+				//$tr->setUrlBase('http://translate.google.cn/translate_a/single');
+				//$tr->setUrlBase('http://translate.googleapis.com/translate_a/single');
+				//$detectedLanguage = $tr->getLastDetectedSource();
+				//$text = $tr->translate($textTitle);
+				//test($text); 
+				/**/
+				/*
+				$allNews = News::get();
+				if($allNews){
+					foreach($allNews as $new){
+						$text = $new->title;
+						if(!$new->title_ru){
+							$new->title_ru = $text;
+						}
+						test($tr->translate($text));
+						if(!$new->title_en){
+							$new->title_en = $tr->translate($text);
+						}
+						if($new->title_en){
+							$new->save();
+						}
+						$new->save();
+					}
+				}
+				exit("exit");
+				test($allNews);
+				*/
+				/**/
+				
+				
+				
         $newsHeadlines = News_Headline::getShowsOnHomepage(5);
         $regionalNews = News_Headline::getRegionals(5);
         if($regionalNews){

@@ -102,7 +102,8 @@ class SocialNewsSyncJob extends Job
                 if(array_intersect($hcItem, $categories)){
                   $news[$k]["headline_id"] = $hcKey;
                   $news[$k]["resource_id"] = $rssObject->id;
-                  $news[$k]["title"] = trim($item->full_text);
+                  $news[$k]["title_ua"] = trim($item->full_text);
+                  $news[$k]["title_ru"] = trim($item->full_text);
                   $news[$k]["guid"] = trim($item->id_str);
                   $news[$k]["link"] = "https://twitter.com/" . trim($item->user->screen_name) . "/status/" . trim($item->id_str);
                   $news[$k]["datetime"] = date("Y-m-d H:i:s", strtotime($pubDate));

@@ -123,7 +123,7 @@
 	      <div class="main-news">
 	          <a href="{{ url('/news/main') }}"><h2 class="center-block-header {{--lastFirstUpper--}}">@lang('main.main_category')</h2></a>
 	          @foreach($mainCategoryNews as $new)
-	          	<p><a target="_blank" href="{{$new["link"]}}">{{$new["title"]}}</a>@if($new["resource_title"]) ({{$new["resource_title"]}})@endif</p>
+	          	<p><a target="_blank" href="{{$new["link"]}}">{{$new["title"]}}</a><span class="resource_title">@if($new["resource_title"]) ({{$new["resource_title"]}})@endif</span></p>
 	          @endforeach
 	          <h3 class="center-block-more"><a href="{{ url('/news/main') }}">@lang('main.more_news')</a></h3>
 	      </div>
@@ -146,7 +146,7 @@
                       {{date("H:i", strtotime($new["datetime"]))}}<br /> {{date("j", strtotime($new["datetime"]))}} @lang('main.date_' . date("M", strtotime($new["datetime"])))
                     @endif
 									</span>
-									<a target="_blank"  href="{{$new["link"]}}">{{$new["title"]}}</a>@if($new["resource_title"]) ({{$new["resource_title"]}})@endif
+									<a target="_blank"  href="{{$new["link"]}}">{{$new["title"]}}</a><span class="resource_title">@if($new["resource_title"]) ({{$new["resource_title"]}})@endif</span>
 								</p>
 			        @endforeach
 	         	@endif
@@ -178,7 +178,7 @@
 	                      {{date("H:i", strtotime($new["datetime"]))}}<br /> {{date("j", strtotime($new["datetime"]))}} @lang('main.date_' . date("M", strtotime($new["datetime"])))
 	                    @endif
 										</span>
-										<a target="_blank"  href="{{$new["link"]}}">{{$new["title"]}}</a>@if($new["resource_title"]) ({{$new["resource_title"]}})@endif
+										<a target="_blank"  href="{{$new["link"]}}">{{$new["title"]}}</a><span class="resource_title">@if($new["resource_title"]) ({{$new["resource_title"]}})@endif</span>
 									</p>
 			         	@endforeach
 			          <h3 class="center-block-more"><a href="{{ url('/news/' . $newHeadline["slug"]) }}">@if($newHeadline["more_button"]){{$newHeadline["more_button"]}}@else @lang('main.more_news')@endif</a></h3>

@@ -107,15 +107,17 @@
 						<h4>General Info</h4>
 					</div>
 					<div class="panel-body">
-						@la_display($module, 'title')
+						@la_display($module, 'title_ua')
+						@la_display($module, 'title_ru')
+						@la_display($module, 'title_en')
 						@la_display($module, 'headline_id')
 						@la_display($module, 'resource_id')
 						@la_display($module, 'link')
 						@la_display($module, 'datetime')
-						@la_display($module, 'main_thing')
 						@la_display($module, 'guid')
-						@la_display($module, 'running_line')
+						@la_display($module, 'main_thing')
 						@la_display($module, 'expire_main_thing')
+						@la_display($module, 'running_line')
 						@la_display($module, 'expire-running_line')
 					</div>
 				</div>

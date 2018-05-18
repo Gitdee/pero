@@ -80,7 +80,9 @@ class News_Headline extends Model
       $k = 0;
       foreach($records as $record){
         $dataRecords[$k] = $record->toArray();
-        $dataRecords[$k]["news"] = $record->news()->select('*', DB::raw('count(*) as total'))->groupBy("title")->limit($newsCount)->orderBy("datetime", "desc")->get()->toArray();
+        $locale = App::getLocale();
+				$title = "title_" . $locale;
+        $dataRecords[$k]["news"] = $record->news()->select('*', DB::raw('count(*) as total'))->groupBy($title)->limit($newsCount)->orderBy("datetime", "desc")->get()->toArray();
         $k++;
       }
       $records = $dataRecords;

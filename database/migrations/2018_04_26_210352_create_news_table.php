@@ -18,15 +18,17 @@ class CreateNewsTable extends Migration
     public function up()
     {
         Module::generate("News", 'news', 'title', 'fa-indent', [
-            ["title", "Title", "TextField", false, "", 0, 256, true],
+            ["title_ua", "Title(UA)", "TextField", false, "", 0, 256, true],
+            ["title_ru", "Title(RU)", "TextField", false, "", 0, 256, false],
+            ["title_en", "Title(EN)", "TextField", false, "", 0, 256, false],
             ["headline_id", "Headline", "Dropdown", false, "0", 0, 0, false, "@news_headlines"],
             ["resource_id", "Resource", "Dropdown", false, "0", 0, 0, false, "@news_resources_rsses"],
             ["link", "Link", "TextField", false, "", 0, 256, false],
             ["datetime", "Date", "Datetime", false, "", 0, 0, false],
-            ["main_thing", "Main thing", "Checkbox", false, "0", 0, 0, false],
             ["guid", "GUID", "TextField", false, "", 0, 256, false],
-            ["running_line", "Running line", "Checkbox", false, "0", 0, 0, false],
+            ["main_thing", "Main thing", "Checkbox", false, "0", 0, 0, false],
             ["expire_main_thing", "Expire Main thing", "Datetime", false, "", 0, 0, false],
+            ["running_line", "Running line", "Checkbox", false, "0", 0, 0, false],
             ["expire-running_line", "Expire Running line", "Datetime", false, "", 0, 0, false],
         ]);
 		

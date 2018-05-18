@@ -80,7 +80,8 @@ class NewsSyncJob extends Job
                   $guID = $guID ? $guID : trim($item->link);
                   $news[$k]["headline_id"] = $hcKey;
                   $news[$k]["resource_id"] = $rssObject->id;
-                  $news[$k]["title"] = trim($item->title);
+                  $news[$k]["title_ua"] = trim($item->title);
+                  $news[$k]["title_ru"] = trim($item->title);
                   $news[$k]["guid"] = $guID;
                   $news[$k]["link"] = trim($item->link);
                   $news[$k]["datetime"] = date("Y-m-d H:i:s", strtotime($pubDate));

@@ -63,3 +63,6 @@
 .category-page .sitelist-header:after{
 	display: none;
 }
+.resource_title{
+	color: #0056a2;
+}

@@ -8,7 +8,9 @@
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
         "dwij/laraadmin": "1.0.40",
-        "thujohn/twitter": "^2.2"
+        "thujohn/twitter": "^2.2",
+        "stichoza/google-translate-php": "^3.2",
+        "google/cloud-translate": "^1.2"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
