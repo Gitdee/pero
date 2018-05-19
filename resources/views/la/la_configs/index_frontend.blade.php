@@ -42,6 +42,11 @@
 				<input type="text" class="form-control" placeholder="Number of News on Homepage(Main Headline)" name="number_news_in_main_category" value="{{$configs->number_news_in_main_category}}">
 			</div>
 			
+			<div class="form-group">
+				<label>Position of Region News on Homepage</label>
+				<input type="text" class="form-control" placeholder="Position of Region News on Homepage" name="region_position_on_homepage" value="{{$configs->region_position_on_homepage}}">
+			</div>
+			
 			<div class="box-header with-border">
 				<h3 class="box-title">Running Line Settings</h3>
 			</div>

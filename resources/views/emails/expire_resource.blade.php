@@ -1,0 +1,1 @@
+Викорстання ресурсу <strong>{{ $mailData["resource_title"] }}</strong> закінчується о {{$mailData["resource_end_time"]}}.

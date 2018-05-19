@@ -5,6 +5,7 @@ namespace App\Jobs;
 use Illuminate\Http\Request;
 use DB;
 use App\Models\News;
+use App\Models\Mails;
 
 use Stichoza\GoogleTranslate\TranslateClient;
 use Google\Cloud\Translate\TranslateClient as GoogleTranslateClient;
@@ -29,12 +30,25 @@ class NewsSyncJob extends Job
      */
     public function handle()
     {
-        $rsses = collect(DB::table("news_resources_rsses")->whereNull('deleted_at')->where('status', 1)->where('socia_network', 0)->get(["id", "title", "rss", "headline_ids", "last_sync", "sync_start", "sync_end"]))->keyBy("id");
+        $rsses = collect(DB::table("news_resources_rsses")->whereNull('deleted_at')->where('status', 1)->where('socia_network', 0)->get(["id", "title", "rss", "headline_ids", "last_sync", "sync_start", "sync_end", "notifired"]))->keyBy("id");
         $headlines = collect(DB::table("news_headlines")->whereNull('deleted_at')->where('status', 1)->get(["id", "title_ua", "categories"]))->keyBy("id");
         if($rsses && $headlines){
           foreach($rsses as $rKey => $rItem){
           	if($rItem->sync_start != '0000-00-00 00:00:00' && $rItem->sync_end != '0000-00-00 00:00:00'){
-          		if(strtotime($rItem->sync_start) > time() || strtotime($rItem->sync_end) < time()){
+          		$timeStart = strtotime($rItem->sync_start); 
+							$timeEnd = strtotime($rItem->sync_end);
+          		if($timeEnd > time() && $timeEnd - time() < 60*60*24 && !$rItem->notifired){
+          			$mailsData = [
+									"user_email" => env('MAIL_ADMIN_EMAIL'),
+									"user_name" => env('MAIL_ADMIN_EMAIL'),
+									"resource_title" => $rItem->title,
+									"resource_end_time" => $rItem->sync_end
+								];
+								$mails = new Mails();
+          			$mails->expireResource($mailsData);
+          			DB::table("news_resources_rsses")->where("id", $rItem->id)->update(['notifired' => 1]);
+          		}
+          		if($timeStart > time() || $timeEnd < time()){
           			continue;
           		}
 						}
@@ -74,18 +88,26 @@ class NewsSyncJob extends Job
        $rss = @simplexml_load_file($rssURL);
        $news = array();
        $k = 0;
-       
        if(isset($rss->channel->item)){
          foreach($rss->channel->item as $item) {
             $pubDate = (string)$item->pubDate;
             if(isset($pubDate) && strtotime($pubDate) > strtotime($rssObject->last_sync)){
-              $category = (string)$item->category;
-              $category = trim($category);
-              if(!in_array($category, $rssObject->headlines_categories_all)){
-                continue;
+            	$isArray = (string)$item->category[1] ? 1 : 0;
+							if(!$isArray){
+								$category = (string)$item->category;
+	              $category = trim($category);
+	              if(!in_array($category, $rssObject->headlines_categories_all)){
+	                continue;
+	              }
+              }else{
+              	$categories = (array)$item->category;
+              	$categories = (array_map(function($item){return trim($item);},$categories));
+	              if(!array_intersect($rssObject->headlines_categories_all, $categories)){
+	                continue;
+	              }
               }
               foreach($rssObject->headlines_categories as $hcKey => $hcItem){
-                if(in_array($category, $hcItem)){
+                if(($isArray && array_intersect($hcItem, $categories)) || (!$isArray && in_array($category, $hcItem))){
                   $guID = trim($item->guid);
                   $guID = $guID ? $guID : trim($item->link);
                   $news[$k]["headline_id"] = $hcKey;

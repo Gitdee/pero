@@ -13,7 +13,10 @@
 								<input name="keyword" type="text" placeholder="@lang('main.header_search')">
 							</form>
           </div>
-					
+					<div class="resize-text-buttons">
+						<a href="javascript:void(0);" class="resize-button decrease">A-</a>
+						<a href="javascript:void(0);" class="resize-button increase">A+</a>
+					</div>
 					@include('frontend.layouts.partials.swither_language')
 					
           <div id="addmenuicon" class="addmenuicon-block">

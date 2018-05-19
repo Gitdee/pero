@@ -69,4 +69,6 @@ return [
     "date_Thursday" => "Четвер",
     "date_Friday" => "П'ятниця",
     "date_Saturday" => "Субота",
+    
+    "expire_resource" => "Закінчення викорстання ресурсу"
 ];

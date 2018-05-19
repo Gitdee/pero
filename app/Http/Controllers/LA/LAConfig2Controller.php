@@ -44,6 +44,7 @@ class LAConfig2Controller extends Controller
 			"running_line_text_ua",
 			"running_line_text_ru",
 			"running_line_text_en",
+			"region_position_on_homepage"
 		]);
 		foreach($all as $key => $value) {
 			LAConfigs::where('key', $key)->update(['value' => $value]);

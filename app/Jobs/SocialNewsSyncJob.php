@@ -5,6 +5,8 @@ namespace App\Jobs;
 use Illuminate\Http\Request;
 use DB;
 use App\Models\News;
+use App\Models\Mails;
+
 use Twitter;
 
 use Stichoza\GoogleTranslate\TranslateClient;
@@ -31,8 +33,8 @@ class SocialNewsSyncJob extends Job
     public function handle()
     {
         $headlines = collect(DB::table("news_headlines")->whereNull('deleted_at')->where('status', 1)->get(["id", "title_ua", "categories"]))->keyBy("id");
-        $facebookRsses = collect(DB::table("news_resources_rsses")->whereNull('deleted_at')->where('status', 1)->where('socia_network', 1)->where("rss", "like", "%facebook%")->get(["id", "title", "rss", "headline_ids", "last_sync", "sync_start", "sync_end"]))->keyBy("id");
-        $twitterRsses = collect(DB::table("news_resources_rsses")->whereNull('deleted_at')->where('status', 1)->where('socia_network', 1)->where("rss", "like", "%twitter%")->get(["id", "title", "rss", "headline_ids", "last_sync", "sync_start", "sync_end"]))->keyBy("id");
+        $facebookRsses = collect(DB::table("news_resources_rsses")->whereNull('deleted_at')->where('status', 1)->where('socia_network', 1)->where("rss", "like", "%facebook%")->get(["id", "title", "rss", "headline_ids", "last_sync", "sync_start", "sync_end", "notifired"]))->keyBy("id");
+        $twitterRsses = collect(DB::table("news_resources_rsses")->whereNull('deleted_at')->where('status', 1)->where('socia_network', 1)->where("rss", "like", "%twitter%")->get(["id", "title", "rss", "headline_ids", "last_sync", "sync_start", "sync_end", "notifired"]))->keyBy("id");
         /* facebook*/
         /*
         $rss = "https://www.facebook.com/npgroup/";
@@ -59,7 +61,20 @@ class SocialNewsSyncJob extends Job
         if($twitterRsses && $headlines){
           foreach($twitterRsses as $rKey => $rItem){
           	if($rItem->sync_start != '0000-00-00 00:00:00' && $rItem->sync_end != '0000-00-00 00:00:00'){
-          		if(strtotime($rItem->sync_start) > time() || strtotime($rItem->sync_end) < time()){
+          		$timeStart = strtotime($rItem->sync_start); 
+							$timeEnd = strtotime($rItem->sync_end);
+          		if($timeEnd > time() && $timeEnd - time() < 60*60*24 && !$rItem->notifired){
+          			$mailsData = [
+									"user_email" => env('MAIL_ADMIN_EMAIL'),
+									"user_name" => env('MAIL_ADMIN_EMAIL'),
+									"resource_title" => $rItem->title,
+									"resource_end_time" => $rItem->sync_end
+								];
+          			$mails = new Mails();
+          			$mails->expireResource($mailsData);
+          			DB::table("news_resources_rsses")->where("id", $rItem->id)->update(['notifired' => 1]);
+          		}
+          		if($timeStart > time() || $timeEnd < time()){
           			continue;
           		}
 						}

@@ -86,7 +86,9 @@ class News_Resources_RSSesController extends Controller
 			}
 			
 			$insert_id = Module::insert("News_Resources_RSSes", $request);
-			
+			if($request->sync_end && $timeEnd > time() && $timeEnd - time() > 60*60*24){
+				DB::table("news_resources_rsses")->where("id", $insert_id)->update(['notifired' => 0]);
+			}
 			return redirect()->route(config('laraadmin.adminRoute') . '.news_resources_rsses.index');
 			
 		} else {
@@ -174,8 +176,11 @@ class News_Resources_RSSesController extends Controller
 			if ($validator->fails()) {
 				return redirect()->back()->withErrors($validator)->withInput();;
 			}
-			
 			$insert_id = Module::updateRow("News_Resources_RSSes", $request, $id);
+			$timeEnd = strtotime($request->sync_end);
+			if($request->sync_end && $timeEnd > time() && $timeEnd - time() > 60*60*24){
+				DB::table("news_resources_rsses")->where("id", $id)->update(['notifired' => 0]);
+			}
 			
 			return redirect()->route(config('laraadmin.adminRoute') . '.news_resources_rsses.index');
 			

@@ -130,10 +130,42 @@
       @endif
       
       @php
-        $startDay = date("Y-m-d 00:00:00");                              
+        $startDay = date("Y-m-d 00:00:00");    
+				$regionalNewsPosition = LAConfigs::getByKey('region_position_on_homepage');                          
       @endphp
       @if($newsHeadlines)
-      	@foreach($newsHeadlines as $newHeadline)
+      	@foreach($newsHeadlines as $key => $newHeadline)
+      		@if($regionalNewsPosition == ($key + 1) && $regionalNews)
+			      <div class="main-news politics regions_wrapper">
+			          <h2 class="center-block-header region-header" onclick="show('region-more')">
+		              @foreach($regionalNews as $newHeadlineRegion)
+										@if($newHeadlineRegion["region_id"] == $regionalID)<span class="regions_title">{{$newHeadlineRegion["title"]}}</span>@endif
+									@endforeach
+		              <div id="region-more" class="show-more">
+		                  @foreach($regionalNews as $newHeadlineRegion)
+												<a data-region_title="{{$newHeadlineRegion["title"]}}" data-region_id="{{$newHeadlineRegion["region_id"]}}" href="javascript:;" @if($newHeadlineRegion["region_id"] == $regionalID)class="activecity"@endif>{{$newHeadlineRegion["region_title"]}}</a>
+											@endforeach
+		              </div>
+			          </h2>
+								@foreach($regionalNews as $newHeadlineRegion)
+				          <div class="region_news_container @if($newHeadlineRegion["region_id"] == $regionalID) active @endif" id="region_news_container_region_{{$newHeadlineRegion["region_id"]}}">
+					          @foreach($newHeadlineRegion["news"] as $new)
+											<p>
+												<span class="time">
+													@if(strtotime($new["datetime"]) > strtotime($startDay))
+			                      {{date("H:i", strtotime($new["datetime"]))}}
+			                    @else
+			                      {{date("H:i", strtotime($new["datetime"]))}}<br /> {{date("j", strtotime($new["datetime"]))}} @lang('main.date_' . date("M", strtotime($new["datetime"])))
+			                    @endif
+												</span>
+												<a target="_blank"  href="{{$new["link"]}}">{{$new["title"]}}</a><span class="resource_title">@if($new["resource_title"]) ({{$new["resource_title"]}})@endif</span>
+											</p>
+					         	@endforeach
+					          <h3 class="center-block-more"><a href="{{ url('/news/' . $newHeadlineRegion["slug"]) }}">@if($newHeadlineRegion["more_button"]){{$newHeadlineRegion["more_button"]}}@else @lang('main.more_news')@endif</a></h3>
+				          </div>
+				      	@endforeach
+			      </div>
+      		@endif
 	      	<div class="main-news politics">
 	          <a href="{{ url('/news/' . $newHeadline["slug"]) }}"><h2 class="center-block-header {{--lastFirstUpper--}}">{{$newHeadline["title"]}}</h2><a></a>
 	          @if($newHeadline["news"])
@@ -155,21 +187,21 @@
 	      @endforeach
 			@endif
 			
-			@if($regionalNews)
+			@if($regionalNews && $regionalNewsPosition > count($newsHeadlines))
 	      <div class="main-news politics regions_wrapper">
 	          <h2 class="center-block-header region-header" onclick="show('region-more')">
-              @foreach($regionalNews as $newHeadline)
-								@if($newHeadline["region_id"] == $regionalID)<span class="regions_title">{{$newHeadline["title"]}}</span>@endif
+              @foreach($regionalNews as $newHeadlineRegion)
+								@if($newHeadlineRegion["region_id"] == $regionalID)<span class="regions_title">{{$newHeadlineRegion["title"]}}</span>@endif
 							@endforeach
               <div id="region-more" class="show-more">
-                  @foreach($regionalNews as $newHeadline)
-										<a data-region_title="{{$newHeadline["title"]}}" data-region_id="{{$newHeadline["region_id"]}}" href="javascript:;" @if($newHeadline["region_id"] == $regionalID)class="activecity"@endif>{{$newHeadline["region_title"]}}</a>
+                  @foreach($regionalNews as $newHeadlineRegion)
+										<a data-region_title="{{$newHeadlineRegion["title"]}}" data-region_id="{{$newHeadlineRegion["region_id"]}}" href="javascript:;" @if($newHeadlineRegion["region_id"] == $regionalID)class="activecity"@endif>{{$newHeadlineRegion["region_title"]}}</a>
 									@endforeach
               </div>
 	          </h2>
-						@foreach($regionalNews as $newHeadline)
-		          <div class="region_news_container @if($newHeadline["region_id"] == $regionalID) active @endif" id="region_news_container_region_{{$newHeadline["region_id"]}}">
-			          @foreach($newHeadline["news"] as $new)
+						@foreach($regionalNews as $newHeadlineRegion)
+		          <div class="region_news_container @if($newHeadlineRegion["region_id"] == $regionalID) active @endif" id="region_news_container_region_{{$newHeadlineRegion["region_id"]}}">
+			          @foreach($newHeadlineRegion["news"] as $new)
 									<p>
 										<span class="time">
 											@if(strtotime($new["datetime"]) > strtotime($startDay))
@@ -181,7 +213,7 @@
 										<a target="_blank"  href="{{$new["link"]}}">{{$new["title"]}}</a><span class="resource_title">@if($new["resource_title"]) ({{$new["resource_title"]}})@endif</span>
 									</p>
 			         	@endforeach
-			          <h3 class="center-block-more"><a href="{{ url('/news/' . $newHeadline["slug"]) }}">@if($newHeadline["more_button"]){{$newHeadline["more_button"]}}@else @lang('main.more_news')@endif</a></h3>
+			          <h3 class="center-block-more"><a href="{{ url('/news/' . $newHeadlineRegion["slug"]) }}">@if($newHeadlineRegion["more_button"]){{$newHeadlineRegion["more_button"]}}@else @lang('main.more_news')@endif</a></h3>
 		          </div>
 		      	@endforeach
 	      </div>
