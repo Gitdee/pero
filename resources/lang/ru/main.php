@@ -31,6 +31,7 @@ return [
     'homepage_tv_program_no_records' => 'Нет данных',
     'homepage_tv' => 'ТелевидениЕ',
     'homepage_radio' => 'РадиостанциИ',
+    'homepage_taxi' => 'Такси',
     'homepage_chat' => 'ЧаТ',
     'homepage_no_records' => 'Нет данных',
     

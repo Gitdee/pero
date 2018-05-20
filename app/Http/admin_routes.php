@@ -115,4 +115,8 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	Route::get(config('laraadmin.adminRoute') . '/region_dt_ajax', 'LA\RegionsController@dtajax');
 	
 	Route::resource(config('laraadmin.adminRoute') . '/site_configs', '\App\Http\Controllers\LA\LAConfig2Controller');
+
+	/* ================== Taxes ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/taxes', 'LA\TaxesController');
+	Route::get(config('laraadmin.adminRoute') . '/tax_dt_ajax', 'LA\TaxesController@dtajax');
 });

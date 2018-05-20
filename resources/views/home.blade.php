@@ -68,6 +68,25 @@
 
 <div class="wrap other-blocks">
   <div class="col-1">
+  		<div class="mediablock" style="margin-bottom:10px;">
+  			<h2 id="but-rd" class="block-header media" style="width: 100%;margin-bottom:10px;">@lang('main.homepage_taxi')</h2>
+  			@if($taxi)        
+	         @foreach($taxi as $item)
+	         <h4 style="width: 100%;text-align:center;">{{$item["title"]}}</h4>
+	         	@if($item["items"])
+	         		@foreach($item["items"] as $item2)
+		         		@if($item2["link"])
+		         			<a href="{{$radio["link"]}}">
+		         		@endif
+		         			<p style="text-align: center;">{{$item2["title"]}} &nbsp;&nbsp;&nbsp;{{$item2["phone"]}}</p>
+		         		@if($item2["link"])
+		         			</a>
+		         		@endif
+	         		@endforeach
+         		@endif
+	         @endforeach
+	     	@endif
+  		</div>
       <div class="mediablock">
           <h2 id="but-rd" class="block-header media" onclick="show('list-radio')">@lang('main.homepage_radio')</h2>
           <h2 id="but-tv" class="block-header media active" onclick="show('list-tv')">@lang('main.homepage_tv')</h2>

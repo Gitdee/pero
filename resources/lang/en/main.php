@@ -32,6 +32,7 @@ return [
     'homepage_tv' => 'TV',
     'homepage_radio' => 'Radio stationS',
     'homepage_chat' => 'ChaT',
+    'homepage_taxi' => 'Taxi',
     'homepage_no_records' => 'No data',
     
     'more_news' => 'More News',

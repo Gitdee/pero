@@ -19,6 +19,7 @@ use App\Models\Radio;
 use App\Models\Tv;
 use App\Models\Tv_program;
 use App\Models\Banner;
+use App\Models\Tax;
 
 use Dwij\Laraadmin\Models\LAConfigs;
 
@@ -87,7 +88,7 @@ class HomeController extends Controller
 				test($result);*/
 				/***/
 				//$textTitle = $runningLineNews[0]["title"];
-				$tr = new TranslateClient(null, 'en');
+				//$tr = new TranslateClient(null, 'en');
 				//http://translate.googleapis.com
 				//$tr->setUrlBase('http://translate.google.cn/translate_a/single');
 				//$tr->setUrlBase('http://translate.googleapis.com/translate_a/single');
@@ -149,6 +150,7 @@ class HomeController extends Controller
 				if(!$regionalID && $regionalNews){
 					$regionalID = $regionalNews[0]["region_id"];
 				}
+				$taxi = Tax::taxesByCities();
         return view('home', [
         	"runningLineNews" => $runningLineNews,
           'mainCategoryNews' => $mainCategoryNews,
@@ -160,6 +162,7 @@ class HomeController extends Controller
           'tvs' => $tvs,
           'tvProgram' => $tvProgram,
           'rightBanners' => $rightBanners,
+          'taxi' => $taxi,
           'regionalID' => $regionalID
         ]);
     }
